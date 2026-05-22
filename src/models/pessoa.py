@@ -64,7 +64,7 @@ class Pessoa:
     def papeis(self) -> list[Papel]:
         return self.__papeis
 
-    def adiciona_papel_paciente(self) -> None:
+    def adicionar_papel_paciente(self) -> None:
         """Adiciona o papel de paciente à pessoa.
 
         Raises:
