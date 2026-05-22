@@ -1,9 +1,15 @@
+"""Módulo que define a classe Clinica, representando uma clínica
+médica com seus atributos e métodos relacionados."""
+
 from datetime import time
 
 from atendimento import Atendimento
 
 
 class Clinica:
+    """Representa uma clínica médica, contendo informações como nome, localização,
+    descrição, horário de funcionamento e os atendimentos realizados."""
+
     def __init__(
         self,
         nome: str,
@@ -79,6 +85,17 @@ class Clinica:
         self.__hora_fechamento = hora_fechamento
 
     def adicionar_atendimento(self, atendimento: Atendimento):
+        """Adiciona um atendimento à clínica, garantindo que o horário do atendimento
+        esteja dentro do horário de funcionamento da clínica.
+
+        Args:
+            atendimento (Atendimento): O atendimento a ser adicionado.
+
+        Raises:
+            ValueError: Se o atendimento não for uma instância de Atendimento ou se
+                        o horário do atendimento não estiver dentro do horário de
+                        funcionamento da clínica.
+        """
         if not isinstance(atendimento, Atendimento):
             raise ValueError(
                 "O atendimento deve ser uma instância da classe Atendimento"
