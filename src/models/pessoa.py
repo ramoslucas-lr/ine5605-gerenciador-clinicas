@@ -1,5 +1,6 @@
 """Módulo que define a classe Pessoa, representando uma pessoa que
 pode ter os papéis de paciente e/ou profissional."""
+
 from datetime import datetime
 
 from papel import Papel
@@ -9,6 +10,7 @@ from papel_profissional import PapelProfissional
 
 class Pessoa:
     """Representa uma pessoa, que pode ter os papéis de paciente e/ou profissional."""
+
     def __init__(
         self, nome: str, celular: str, cpf: str, data_nascimento: datetime
     ) -> None:
