@@ -1,4 +1,4 @@
-from models.Metodo_Pagamento import MetodoPagamento
+from metodo_pagamento import MetodoPagamento
 
 
 class MetodoCartao(MetodoPagamento):
