@@ -1,3 +1,5 @@
+"""Módulo contendo a entidade principal de Atendimento e suas regras de negócio."""
+
 from datetime import datetime
 from decimal import Decimal
 
@@ -11,6 +13,13 @@ from papel_profissional import PapelProfissional
 
 
 class Atendimento:
+    """Registro central de uma consulta ou evento na clínica.
+
+    Esta classe atua como o coração do sistema, cruzando as entidades envolvidas
+    (Paciente, Profissional e Clínica) e gerenciando tanto a linha do tempo da
+    consulta quanto a consolidação financeira (procedimentos e pagamentos).
+    """
+
     def __init__(
         self,
         ts_inicio: datetime,
@@ -89,8 +98,12 @@ class Atendimento:
         if not any(isinstance(papel, PapelPaciente) for papel in paciente.papeis):
             raise ValueError("O paciente deve ter o papel de paciente.")
 
+        # Cálculo da idade do paciente no momento do atendimento
         data_consulta = self.ts_inicio.date()
         data_nascimento = paciente.data_nascimento.date()
+
+        # O cálculo de idade considera se o paciente já 
+        # fez aniversário no ano da consulta
         idade = (
             data_consulta.year
             - data_nascimento.year
@@ -157,10 +170,25 @@ class Atendimento:
     def adiciona_procedimento(
         self, descricao: str, valor: Decimal, profissional: Pessoa
     ) -> None:
+        """Adiciona um procedimento ao atendimento.
+
+        Args:
+            descricao (str): A descrição do procedimento.
+            valor (Decimal): O valor do procedimento.
+            profissional (Pessoa): O profissional que realizará o procedimento.
+        """
         procedimento = Procedimento(descricao, valor, profissional)
         self.__procedimentos.append(procedimento)
 
     def adiciona_pagamento(self, pagamento: Pagamento) -> None:
+        """Adiciona um pagamento ao atendimento.
+
+        Args:
+            pagamento (Pagamento): O pagamento a ser adicionado.
+
+        Raises:
+            ValueError: Se o pagamento não for uma instância de Pagamento.
+        """
         if not isinstance(pagamento, Pagamento):
             raise ValueError("O pagamento deve ser uma instância de Pagamento.")
         self.__pagamentos.append(pagamento)
