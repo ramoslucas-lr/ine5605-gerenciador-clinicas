@@ -1,3 +1,7 @@
+"""Módulo de modelo de procedimento. Define a classe Procedimento, representando
+um procedimento realizado em um atendimento, com seus atributos e métodos relacionados.
+"""
+
 from decimal import Decimal
 
 from pessoa import Pessoa
@@ -5,6 +9,9 @@ from papel_profissional import PapelProfissional
 
 
 class Procedimento:
+    """Representa um procedimento realizado em um atendimento, contendo informações
+    como descrição, valor e o profissional responsável pelo procedimento."""
+
     def __init__(self, descricao: str, valor: Decimal, profissional: Pessoa):
         self.descricao = descricao
         self.valor = valor
