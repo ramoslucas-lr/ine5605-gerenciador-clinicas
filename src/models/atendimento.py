@@ -102,7 +102,7 @@ class Atendimento:
         data_consulta = self.ts_inicio.date()
         data_nascimento = paciente.data_nascimento.date()
 
-        # O cálculo de idade considera se o paciente já 
+        # O cálculo de idade considera se o paciente já
         # fez aniversário no ano da consulta
         idade = (
             data_consulta.year
