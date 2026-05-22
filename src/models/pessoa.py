@@ -94,7 +94,7 @@ class Pessoa:
         papel_profissional = PapelProfissional(reg_profissional, especialidade)
         self.__papeis.append(papel_profissional)
 
-    def remove_papel(self, papel: Papel):
+    def remover_papel(self, papel: Papel):
         """Remove um papel da pessoa."""
         if papel in self.__papeis:
             self.__papeis.remove(papel)
