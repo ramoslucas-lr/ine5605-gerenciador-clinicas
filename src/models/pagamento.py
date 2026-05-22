@@ -1,3 +1,7 @@
+"""Módulo de modelo de pagamento. Define a classe Pagamento,
+representando um pagamento realizado por um paciente em um atendimento,
+com seus atributos e métodos relacionados."""
+
 from decimal import Decimal
 from datetime import datetime
 
@@ -8,6 +12,10 @@ from papel_paciente import PapelPaciente
 
 
 class Pagamento:
+    """Representa um pagamento realizado por um paciente em um atendimento,
+    contendo informações como data, valor, paciente, atendimento associado
+    e método de pagamento."""
+
     def __init__(
         self,
         data: datetime,
@@ -21,6 +29,8 @@ class Pagamento:
         self.paciente = paciente
         self.atendimento = atendimento
         self.metodo_pagamento = metodo_pagamento
+
+        # Registra o snapshot do saldo devedor no momento do pagamento
         self.__valor_restante = atendimento.valor_restante - self.valor
 
         if data.date() > atendimento.ts_inicio.date():
