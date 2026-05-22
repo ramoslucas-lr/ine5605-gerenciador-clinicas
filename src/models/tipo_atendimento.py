@@ -1,4 +1,3 @@
-
 class TipoAtendimento:
 
     def __init__(self, nome: str, descricao: str):
