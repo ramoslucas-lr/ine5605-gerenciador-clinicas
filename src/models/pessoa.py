@@ -76,7 +76,7 @@ class Pessoa:
         papel_paciente = PapelPaciente()
         self.__papeis.append(papel_paciente)
 
-    def adiciona_papel_profissional(
+    def adicionar_papel_profissional(
         self, reg_profissional: str, especialidade: str
     ) -> None:
         """Adiciona o papel de profissional à pessoa.
