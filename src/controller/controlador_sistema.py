@@ -1,3 +1,4 @@
+from controller.controlador_atendimento import ControladorAtendimento
 from view.tela_sistema import TelaSistema
 from controller.controlador_pessoa import ControladorPessoa
 
@@ -6,6 +7,11 @@ class ControladorSistema:
     def __init__(self):
         self.__tela_sistema = TelaSistema()
         self.__controlador_pessoa = ControladorPessoa(self)
+        self.__controlador_atendimento = ControladorAtendimento(self)
+
+    @property
+    def controlador_pessoa(self) -> ControladorPessoa:
+        return self.__controlador_pessoa
 
     def inicializa_sistema(self):
         self.abre_tela()
@@ -30,8 +36,7 @@ class ControladorSistema:
         self.__controlador_pessoa.abre_tela()
 
     def cadastro_atendimentos(self):
-        print("Cadastro de Atendimentos")
-        # Lógica para cadastro de atendimentos
+        self.__controlador_atendimento.abre_tela()
 
     def relatorios(self):
         print("Relatórios")
