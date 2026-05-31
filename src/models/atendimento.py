@@ -1,15 +1,15 @@
 """Módulo contendo a entidade principal de Atendimento e suas regras de negócio."""
 
+from __future__ import annotations
 from datetime import datetime
 from decimal import Decimal
 
-from pessoa import Pessoa
-from clinica import Clinica
-from pagamento import Pagamento
-from procedimento import Procedimento
-from tipo_atendimento import TipoAtendimento
-from papel_paciente import PapelPaciente
-from papel_profissional import PapelProfissional
+from models.pessoa import Pessoa
+from models.clinica import Clinica
+from models.procedimento import Procedimento
+from models.tipo_atendimento import TipoAtendimento
+from models.papel_paciente import PapelPaciente
+from models.papel_profissional import PapelProfissional
 
 
 class Atendimento:
@@ -22,6 +22,7 @@ class Atendimento:
 
     def __init__(
         self,
+        id: int,
         ts_inicio: datetime,
         ts_fim: datetime,
         valor: Decimal,
@@ -30,6 +31,7 @@ class Atendimento:
         profissional: Pessoa,
         clinica: Clinica,
     ):
+        self.__id = id
         self.__ts_inicio = ts_inicio
         self.__ts_fim = ts_fim
         self.__valor = valor
@@ -37,8 +39,12 @@ class Atendimento:
         self.__paciente = paciente
         self.__profissional = profissional
         self.__clinica = clinica
-        self.__procedimentos = []
+        self.__procedimentos = {}
         self.__pagamentos = []
+
+    @property
+    def id(self) -> int:
+        return self.__id
 
     @property
     def ts_inicio(self) -> datetime:
@@ -149,7 +155,7 @@ class Atendimento:
         return self.__procedimentos
 
     @property
-    def pagamentos(self) -> list[Pagamento]:
+    def pagamentos(self) -> list:
         return self.__pagamentos
 
     @property
@@ -159,13 +165,28 @@ class Atendimento:
     @property
     def valor_total(self) -> Decimal:
         valor_procedimentos = sum(
-            procedimento.valor for procedimento in self.__procedimentos
+            procedimento.valor for procedimento in self.__procedimentos.values()
         )
         return self.__valor + valor_procedimentos
 
     @property
     def valor_restante(self) -> Decimal:
         return self.valor_total - self.valor_pago
+
+    def alterar_procedimento(
+        self, procedimento_id: int, descricao: str, valor: Decimal, profissional: Pessoa
+    ) -> None:
+        if procedimento_id not in self.__procedimentos:
+            raise ValueError("Procedimento não encontrado no atendimento.")
+        procedimento = self.__procedimentos[procedimento_id]
+        procedimento.descricao = descricao
+        procedimento.valor = valor
+        procedimento.profissional = profissional
+
+    def excluir_procedimento(self, procedimento_id: int) -> None:
+        if procedimento_id not in self.__procedimentos:
+            raise ValueError("Procedimento não encontrado no atendimento.")
+        del self.__procedimentos[procedimento_id]
 
     def adiciona_procedimento(
         self, descricao: str, valor: Decimal, profissional: Pessoa
@@ -177,10 +198,11 @@ class Atendimento:
             valor (Decimal): O valor do procedimento.
             profissional (Pessoa): O profissional que realizará o procedimento.
         """
-        procedimento = Procedimento(descricao, valor, profissional)
-        self.__procedimentos.append(procedimento)
+        id = max(list(self.__procedimentos.keys()), default=0) + 1
+        procedimento = Procedimento(id, descricao, valor, profissional)
+        self.__procedimentos[id] = procedimento
 
-    def adiciona_pagamento(self, pagamento: Pagamento) -> None:
+    def adiciona_pagamento(self, pagamento) -> None:
         """Adiciona um pagamento ao atendimento.
 
         Args:
@@ -189,6 +211,8 @@ class Atendimento:
         Raises:
             ValueError: Se o pagamento não for uma instância de Pagamento.
         """
+        from models.pagamento import Pagamento
+
         if not isinstance(pagamento, Pagamento):
             raise ValueError("O pagamento deve ser uma instância de Pagamento.")
         self.__pagamentos.append(pagamento)
