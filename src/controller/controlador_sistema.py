@@ -24,7 +24,7 @@ class ControladorSistema:
             if funcao:
                 funcao()
             else:
-                print("Opção inválida. Tente novamente.")
+                self.__tela_sistema.mensagem("Opção inválida. Tente novamente.")
 
     def cadastro_pessoas(self):
         self.__controlador_pessoa.abre_tela()
@@ -38,5 +38,5 @@ class ControladorSistema:
         # Lógica para geração de relatórios
 
     def finalizar_sistema(self):
-        print("Finalizando o sistema. Até logo!")
+        self.__tela_sistema.mensagem("Sistema finalizado. Até logo!")
         exit()

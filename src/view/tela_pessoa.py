@@ -1,3 +1,5 @@
+from typing import List
+
 from models.papel_paciente import PapelPaciente
 from models.papel_profissional import PapelProfissional
 
@@ -30,13 +32,11 @@ class TelaPessoa:
         for papel in papeis:
             self.mostra_papel(papel)
 
-    def mostra_papel(self, papel):
-        if isinstance(papel, PapelPaciente):
-            print("Papel: Paciente")
-        elif isinstance(papel, PapelProfissional):
-            print("Papel: Profissional")
-            print(f"Registro Profissional: {papel.reg_profissional}")
-            print(f"Especialidade: {papel.especialidade}")
+    def mostra_papel(self, papel: List[dict]):
+        print(f"Papel: {papel['tipo']}")
+        if papel['tipo'] == 'Profissional':
+            print(f"Registro Profissional: {papel['reg_profissional']}")
+            print(f"Especialidade: {papel['especialidade']}")
 
     def pega_dados_pessoa(self):
         nome = input("Digite o nome da pessoa: ")

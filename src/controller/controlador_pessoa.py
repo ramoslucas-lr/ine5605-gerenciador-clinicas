@@ -22,7 +22,19 @@ class ControladorPessoa:
 
         if pessoa is not None:
             data_nascimento_str = pessoa.data_nascimento.strftime("%d/%m/%Y")
-            self.__tela_pessoa.mostra_pessoa(pessoa.nome, pessoa.celular, pessoa.cpf, data_nascimento_str, pessoa.papeis)
+            papeis_list = []
+            for papel in pessoa.papeis:
+                if isinstance(papel, PapelPaciente):
+                    papeis_list.append({
+                        "tipo": "Paciente"
+                    })
+                elif isinstance(papel, PapelProfissional):
+                    papeis_list.append({
+                        "tipo": "Profissional",
+                        "reg_profissional": papel.reg_profissional,
+                        "especialidade": papel.especialidade
+                    })
+            self.__tela_pessoa.mostra_pessoa(pessoa.nome, pessoa.celular, pessoa.cpf, data_nascimento_str, papeis_list)
         else:
             self.__tela_pessoa.mostra_mensagem("Pessoa não encontrada.")
 
@@ -111,7 +123,19 @@ class ControladorPessoa:
             showing_end = min(end_index, total_pessoas)
             self.__tela_pessoa.mostra_mensagem(f"Page {page}/{total_pages} - Showing {showing_start}-{showing_end} of {total_pessoas}")
             data_nascimento_str = pessoa.data_nascimento.strftime("%d/%m/%Y")
-            self.__tela_pessoa.mostra_pessoa(pessoa.nome, pessoa.celular, pessoa.cpf, data_nascimento_str, pessoa.papeis)
+            papeis_list = []
+            for papel in pessoa.papeis:
+                if isinstance(papel, PapelPaciente):
+                    papeis_list.append({
+                        "tipo": "Paciente"
+                    })
+                elif isinstance(papel, PapelProfissional):
+                    papeis_list.append({
+                        "tipo": "Profissional",
+                        "reg_profissional": papel.reg_profissional,
+                        "especialidade": papel.especialidade
+                    })
+            self.__tela_pessoa.mostra_pessoa(pessoa.nome, pessoa.celular, pessoa.cpf, data_nascimento_str, papeis_list)
             self.__tela_pessoa.mostra_mensagem("-" * 20)
 
         if total_pessoas // page_size > 1:
