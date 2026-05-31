@@ -5,10 +5,10 @@ com seus atributos e métodos relacionados."""
 from decimal import Decimal
 from datetime import datetime
 
-from pessoa import Pessoa
-from atendimento import Atendimento
-from metodo_pagamento import MetodoPagamento
-from papel_paciente import PapelPaciente
+from models.pessoa import Pessoa
+from models.atendimento import Atendimento
+from models.metodo_pagamento import MetodoPagamento
+from models.papel_paciente import PapelPaciente
 
 
 class Pagamento:
