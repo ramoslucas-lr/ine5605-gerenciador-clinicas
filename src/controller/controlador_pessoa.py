@@ -25,16 +25,22 @@ class ControladorPessoa:
             papeis_list = []
             for papel in pessoa.papeis:
                 if isinstance(papel, PapelPaciente):
-                    papeis_list.append({
-                        "tipo": "Paciente"
-                    })
+                    papeis_list.append({"tipo": "Paciente"})
                 elif isinstance(papel, PapelProfissional):
-                    papeis_list.append({
-                        "tipo": "Profissional",
-                        "reg_profissional": papel.reg_profissional,
-                        "especialidade": papel.especialidade
-                    })
-            self.__tela_pessoa.mostra_pessoa(pessoa.nome, pessoa.celular, pessoa.cpf, data_nascimento_str, papeis_list)
+                    papeis_list.append(
+                        {
+                            "tipo": "Profissional",
+                            "reg_profissional": papel.reg_profissional,
+                            "especialidade": papel.especialidade,
+                        }
+                    )
+            self.__tela_pessoa.mostra_pessoa(
+                pessoa.nome,
+                pessoa.celular,
+                pessoa.cpf,
+                data_nascimento_str,
+                papeis_list,
+            )
         else:
             self.__tela_pessoa.mostra_mensagem("Pessoa não encontrada.")
 
@@ -76,7 +82,9 @@ class ControladorPessoa:
 
         if pessoa is not None:
             data_nascimento_str = pessoa.data_nascimento.strftime("%d/%m/%Y")
-            dados_pessoa = self.__tela_pessoa.pega_dados_pessoa_alteracao(pessoa.nome, pessoa.celular, pessoa.cpf, data_nascimento_str)
+            dados_pessoa = self.__tela_pessoa.pega_dados_pessoa_alteracao(
+                pessoa.nome, pessoa.celular, pessoa.cpf, data_nascimento_str
+            )
 
             if dados_pessoa is not None:
                 pessoa.nome = dados_pessoa["nome"]
@@ -89,7 +97,9 @@ class ControladorPessoa:
                 pessoa.data_nascimento = data_nascimento
                 pessoa.cpf = dados_pessoa["cpf"]
 
-                alterar_papeis = self.__tela_pessoa.confirma_alteracao_papel(pessoa.nome)
+                alterar_papeis = self.__tela_pessoa.confirma_alteracao_papel(
+                    pessoa.nome
+                )
                 if alterar_papeis:
                     self.abre_menu_papeis(pessoa)
 
@@ -118,39 +128,53 @@ class ControladorPessoa:
         pessoas_paginadas = pessoas_list[start_index:end_index]
 
         for pessoa in pessoas_paginadas:
-            total_pages = (total_pessoas + page_size - 1) // page_size if page_size > 0 else 1
+            total_pages = (
+                (total_pessoas + page_size - 1) // page_size if page_size > 0 else 1
+            )
             showing_start = start_index + 1 if total_pessoas > 0 else 0
             showing_end = min(end_index, total_pessoas)
-            self.__tela_pessoa.mostra_mensagem(f"Page {page}/{total_pages} - Showing {showing_start}-{showing_end} of {total_pessoas}")
+            self.__tela_pessoa.mostra_mensagem(
+                f"Página {page}/{total_pages} - Mostrando {showing_start}-{showing_end} de {total_pessoas}"
+            )
             data_nascimento_str = pessoa.data_nascimento.strftime("%d/%m/%Y")
             papeis_list = []
             for papel in pessoa.papeis:
                 if isinstance(papel, PapelPaciente):
-                    papeis_list.append({
-                        "tipo": "Paciente"
-                    })
+                    papeis_list.append({"tipo": "Paciente"})
                 elif isinstance(papel, PapelProfissional):
-                    papeis_list.append({
-                        "tipo": "Profissional",
-                        "reg_profissional": papel.reg_profissional,
-                        "especialidade": papel.especialidade
-                    })
-            self.__tela_pessoa.mostra_pessoa(pessoa.nome, pessoa.celular, pessoa.cpf, data_nascimento_str, papeis_list)
+                    papeis_list.append(
+                        {
+                            "tipo": "Profissional",
+                            "reg_profissional": papel.reg_profissional,
+                            "especialidade": papel.especialidade,
+                        }
+                    )
+            self.__tela_pessoa.mostra_pessoa(
+                pessoa.nome,
+                pessoa.celular,
+                pessoa.cpf,
+                data_nascimento_str,
+                papeis_list,
+            )
             self.__tela_pessoa.mostra_mensagem("-" * 20)
 
         if total_pessoas // page_size > 1:
-            while True:    
+            while True:
                 resposta = self.__tela_pessoa.mostra_menu_pagina()
-                if resposta.lower() == 'n':
+                if resposta.lower() == "n":
                     if end_index < total_pessoas:
                         self.listar_pessoas(page + 1)
                     else:
-                        self.__tela_pessoa.mostra_mensagem("Você já está na última página.")
-                elif resposta.lower() == 'p':
+                        self.__tela_pessoa.mostra_mensagem(
+                            "Você já está na última página."
+                        )
+                elif resposta.lower() == "p":
                     if start_index > 0:
                         self.listar_pessoas(page - 1)
                     else:
-                        self.__tela_pessoa.mostra_mensagem("Você já está na primeira página.")
+                        self.__tela_pessoa.mostra_mensagem(
+                            "Você já está na primeira página."
+                        )
                 else:
                     break
 
@@ -171,7 +195,7 @@ class ControladorPessoa:
             opcao_escolhida = self.__tela_pessoa.mostrar_opcoes()
 
             if opcao_escolhida in opcoes:
-                    opcoes[opcao_escolhida]()
+                opcoes[opcao_escolhida]()
             else:
                 self.__tela_pessoa.mostra_mensagem("Opção inválida. Tente novamente.")
 
