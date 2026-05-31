@@ -1,8 +1,5 @@
 from typing import List
 
-from models.papel_paciente import PapelPaciente
-from models.papel_profissional import PapelProfissional
-
 
 class TelaPessoa:
     def __init__(self):
@@ -34,7 +31,7 @@ class TelaPessoa:
 
     def mostra_papel(self, papel: List[dict]):
         print(f"Papel: {papel['tipo']}")
-        if papel['tipo'] == 'Profissional':
+        if papel["tipo"] == "Profissional":
             print(f"Registro Profissional: {papel['reg_profissional']}")
             print(f"Especialidade: {papel['especialidade']}")
 
@@ -57,9 +54,7 @@ class TelaPessoa:
 
     def pega_dados_pessoa_alteracao(self, nome, celular, cpf, data_nascimento):
         nome = input(f"Digite o nome da pessoa [{nome}]: ") or nome
-        celular = (
-            input(f"Digite o celular da pessoa [{celular}]: ") or celular
-        )
+        celular = input(f"Digite o celular da pessoa [{celular}]: ") or celular
         cpf = input(f"Digite o CPF da pessoa [{cpf}]: ") or cpf
         data_nascimento = (
             input(
@@ -87,9 +82,7 @@ class TelaPessoa:
         print(mensagem)
 
     def confirma_exclusao(self, nome):
-        resposta = input(
-            f"Tem certeza que deseja excluir a pessoa {nome}? (s/n): "
-        )
+        resposta = input(f"Tem certeza que deseja excluir a pessoa {nome}? (s/n): ")
         return resposta.lower() == "s"
 
     def seleciona_tipo_papel(self):
@@ -120,6 +113,8 @@ class TelaPessoa:
         return opcao
 
     def mostra_menu_pagina(self):
-        print("Digite 'n' para próxima página, 'p' para página anterior ou outra tecla para voltar.")
+        print(
+            "Digite 'n' para próxima página, 'p' para página anterior ou outra tecla para voltar."
+        )
         resposta = input("Digite sua escolha: ")
         return resposta
