@@ -3,9 +3,9 @@ pode ter os papéis de paciente e/ou profissional."""
 
 from datetime import datetime
 
-from papel import Papel
-from papel_paciente import PapelPaciente
-from papel_profissional import PapelProfissional
+from models.papel import Papel
+from models.papel_paciente import PapelPaciente
+from models.papel_profissional import PapelProfissional
 
 
 class Pessoa:

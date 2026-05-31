@@ -1,4 +1,4 @@
-from papel import Papel
+from models.papel import Papel
 
 
 class PapelProfissional(Papel):
