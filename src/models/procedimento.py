@@ -13,9 +13,9 @@ class Procedimento:
     como descrição, valor e o profissional responsável pelo procedimento."""
 
     def __init__(self, descricao: str, valor: Decimal, profissional: Pessoa):
-        self.descricao = descricao
-        self.valor = valor
-        self.profissional = profissional
+        self.__descricao = descricao
+        self.__valor = valor
+        self.__profissional = profissional
 
     @property
     def descricao(self) -> str:

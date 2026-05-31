@@ -14,10 +14,10 @@ class Pessoa:
     def __init__(
         self, nome: str, celular: str, cpf: str, data_nascimento: datetime
     ) -> None:
-        self.nome = nome
-        self.celular = celular
-        self.cpf = cpf
-        self.data_nascimento = data_nascimento
+        self.__nome = nome
+        self.__celular = celular
+        self.__cpf = cpf
+        self.__data_nascimento = data_nascimento
         self.__papeis = []
 
     @property

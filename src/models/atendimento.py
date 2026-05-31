@@ -30,13 +30,13 @@ class Atendimento:
         profissional: Pessoa,
         clinica: Clinica,
     ):
-        self.ts_inicio = ts_inicio
-        self.ts_fim = ts_fim
-        self.valor = valor
-        self.tipo_atendimento = tipo_atendimento
-        self.paciente = paciente
-        self.profissional = profissional
-        self.clinica = clinica
+        self.__ts_inicio = ts_inicio
+        self.__ts_fim = ts_fim
+        self.__valor = valor
+        self.__tipo_atendimento = tipo_atendimento
+        self.__paciente = paciente
+        self.__profissional = profissional
+        self.__clinica = clinica
         self.__procedimentos = []
         self.__pagamentos = []
 

@@ -24,11 +24,11 @@ class Pagamento:
         atendimento: Atendimento,
         metodo_pagamento: MetodoPagamento,
     ):
-        self.data = data
-        self.valor = valor
-        self.paciente = paciente
-        self.atendimento = atendimento
-        self.metodo_pagamento = metodo_pagamento
+        self.__data = data
+        self.__valor = valor
+        self.__paciente = paciente
+        self.__atendimento = atendimento
+        self.__metodo_pagamento = metodo_pagamento
 
         # Registra o snapshot do saldo devedor no momento do pagamento
         self.__valor_restante = atendimento.valor_restante - self.valor

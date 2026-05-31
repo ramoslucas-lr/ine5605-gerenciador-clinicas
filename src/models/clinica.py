@@ -18,11 +18,11 @@ class Clinica:
         hora_abertura: time,
         hora_fechamento: time,
     ):
-        self.nome = nome
-        self.localizacao = localizacao
-        self.descricao = descricao
-        self.hora_abertura = hora_abertura
-        self.hora_fechamento = hora_fechamento
+        self.__nome = nome
+        self.__localizacao = localizacao
+        self.__descricao = descricao
+        self.__hora_abertura = hora_abertura
+        self.__hora_fechamento = hora_fechamento
         self.__atendimentos = []
 
     @property
