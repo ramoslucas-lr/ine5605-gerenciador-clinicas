@@ -3,17 +3,14 @@ class TelaAtendimento:
         pass
 
     def pega_dados_atendimento(self):
-        ts_inicio = input(
-            "Digite a data e hora de início do atendimento (dd/mm/aaaa HH:MM): "
-        )
-        ts_fim = input(
-            "Digite a data e hora de fim do atendimento (dd/mm/aaaa HH:MM): "
-        )
-        valor = input("Digite o valor do atendimento: ")
-        tipo_atendimento = input("Digite o ID do tipo do atendimento: ")
-        cpf_paciente = input("Digite o CPF do paciente: ")
-        cpf_profissional = input("Digite o CPF do profissional: ")
-        id_clinica = input("Digite o ID da clínica: ")
+        print("\n📅 ---- Novo Atendimento / Consulta ---- 📅")
+        ts_inicio = input("✍️ Data e hora de início (dd/mm/aaaa HH:MM): ")
+        ts_fim = input("✍️ Data e hora de fim (dd/mm/aaaa HH:MM): ")
+        valor = input("💰 Valor do atendimento (R$): ")
+        tipo_atendimento = input("🏷️ ID do tipo do atendimento: ")
+        cpf_paciente = input("🩺 CPF do paciente: ")
+        cpf_profissional = input("🥼 CPF do profissional/médico: ")
+        id_clinica = input("🏥 ID da clínica: ")
 
         return {
             "ts_inicio": ts_inicio,
@@ -26,11 +23,15 @@ class TelaAtendimento:
         }
 
     def mostra_mensagem(self, mensagem: str):
-        print(mensagem)
+        print(f"✨ {mensagem}")
 
     def seleciona_atendimento(self):
-        id = int(input("Digite o ID do atendimento: "))
-        return id
+        try:
+            id = int(input("🔍 Digite o ID do atendimento: "))
+            return id
+        except ValueError:
+            print("⚠️ ID inválido!")
+            return -1
 
     def pega_dados_atendimento_alteracao(
         self,
@@ -42,31 +43,32 @@ class TelaAtendimento:
         cpf_profissional,
         id_clinica,
     ):
+        print("\n✏️ Editar Atendimento (deixe em branco para manter o valor atual):")
         ts_inicio = (
             input(
-                f"Digite a data e hora de início do atendimento (dd/mm/aaaa HH:MM) [{ts_inicio}]: "
+                f"✍️ Data e hora de início (dd/mm/aaaa HH:MM) [{ts_inicio}]: "
             )
             or ts_inicio
         )
         ts_fim = (
             input(
-                f"Digite a data e hora de fim do atendimento (dd/mm/aaaa HH:MM) [{ts_fim}]: "
+                f"✍️ Data e hora de fim (dd/mm/aaaa HH:MM) [{ts_fim}]: "
             )
             or ts_fim
         )
-        valor = input(f"Digite o valor do atendimento [{valor}]: ") or valor
+        valor = input(f"💰 Valor do atendimento [{valor}]: ") or valor
         tipo_atendimento = (
-            input(f"Digite o ID do tipo do atendimento [{tipo_atendimento}]: ")
+            input(f"🏷️ ID do tipo do atendimento [{tipo_atendimento}]: ")
             or tipo_atendimento
         )
         cpf_paciente = (
-            input(f"Digite o CPF do paciente [{cpf_paciente}]: ") or cpf_paciente
+            input(f"🩺 CPF do paciente [{cpf_paciente}]: ") or cpf_paciente
         )
         cpf_profissional = (
-            input(f"Digite o CPF do profissional [{cpf_profissional}]: ")
+            input(f"🥼 CPF do profissional/médico [{cpf_profissional}]: ")
             or cpf_profissional
         )
-        id_clinica = input(f"Digite o ID da clínica [{id_clinica}]: ") or id_clinica
+        id_clinica = input(f"🏥 ID da clínica [{id_clinica}]: ") or id_clinica
 
         return {
             "ts_inicio": ts_inicio,
@@ -79,22 +81,24 @@ class TelaAtendimento:
         }
 
     def mostra_menu_procedimentos(self):
-        print("---- Gerenciar Procedimentos ----")
-        print("1 - Incluir Procedimento")
-        print("2 - Alterar Procedimento")
-        print("3 - Excluir Procedimento")
-        print("4 - Listar Procedimentos")
-        print("0 - Voltar")
+        print("\n🛠️ ---- GERENCIAR PROCEDIMENTOS ---- 🛠️")
+        print("1️⃣ - Incluir Novo Procedimento")
+        print("2️⃣ - Alterar Procedimento Existente")
+        print("3️⃣ - Excluir Procedimento")
+        print("4️⃣ - Listar Procedimentos do Atendimento")
+        print("0️⃣ - Voltar ao Menu Anterior")
 
-        opcao = int(input("Escolha uma opção: "))
-        return opcao
+        try:
+            opcao = int(input("👉 Escolha uma opção: "))
+            return opcao
+        except ValueError:
+            return -1
 
     def pega_dados_procedimento(self):
-        descricao = input("Digite a descrição do procedimento: ")
-        valor = input("Digite o valor do procedimento: ")
-        cpf_profissional = input(
-            "Digite o CPF do profissional responsável pelo procedimento: "
-        )
+        print("\n🧬 Novo Procedimento no Atendimento:")
+        descricao = input("✍️ Descrição / Nome do procedimento: ")
+        valor = input("💰 Valor do procedimento (R$): ")
+        cpf_profissional = input("🥼 CPF do profissional responsável pelo procedimento: ")
 
         return {
             "descricao": descricao,
@@ -103,24 +107,30 @@ class TelaAtendimento:
         }
 
     def seleciona_procedimento(self, procedimentos):
-        print("Procedimentos:")
+        print("\n🧬 Procedimentos vinculados:")
         for procedimento in procedimentos:
-            print(procedimento)
-        id = int(input("Digite o ID do procedimento: "))
-        return id
+            print(f"🔸 {procedimento}")
+        try:
+            id = int(input("👉 Digite o ID do procedimento desejado: "))
+            return id
+        except ValueError:
+            print("⚠️ ID inválido!")
+            return -1
 
     def mostra_procedimentos(self, procedimentos):
+        print("\n📋 Lista de Procedimentos do Atendimento:")
         for procedimento in procedimentos:
-            print(procedimento)
+            print(f"🔸 {procedimento}")
 
     def pega_dados_procedimento_alteracao(self, descricao, valor, cpf_profissional):
+        print("\n✏️ Alterar Procedimento (deixe em branco para manter o valor atual):")
         descricao = (
-            input(f"Digite a descrição do procedimento [{descricao}]: ") or descricao
+            input(f"✍️ Descrição [{descricao}]: ") or descricao
         )
-        valor = input(f"Digite o valor do procedimento [{valor}]: ") or valor
+        valor = input(f"💰 Valor [{valor}]: ") or valor
         cpf_profissional = (
             input(
-                f"Digite o CPF do profissional responsável pelo procedimento [{cpf_profissional}]: "
+                f"🥼 CPF do profissional responsável [{cpf_profissional}]: "
             )
             or cpf_profissional
         )
@@ -146,72 +156,84 @@ class TelaAtendimento:
         valor_total,
         valor_pago,
     ):
-        print(f"ID: {id}")
-        print(f"Início: {ts_inicio}")
-        print(f"Fim: {ts_fim}")
-        print(f"Valor: {valor}")
-        print(f"Tipo de Atendimento: {tipo_atendimento.nome}")
-        print(f"Paciente: {paciente_nome}")
-        print(f"Profissional: {profissional_nome}")
-        print(f"Clínica: {clinica_nome}")
-        print(f"Procedimentos: {'Nenhum' if not procedimentos else ''}")
-
+        print(f"\n📋 Atendimento ID: #{id}")
+        print(f"📅 Início: {ts_inicio}")
+        print(f"🏁 Fim: {ts_fim}")
+        print(f"💰 Valor Base: R$ {valor}")
+        print(f"🏷️ Tipo de Atendimento: {tipo_atendimento.nome}")
+        print(f"🩺 Paciente: {paciente_nome}")
+        print(f"🥼 Profissional: {profissional_nome}")
+        print(f"🏥 Clínica: {clinica_nome}")
+        
+        print(f"🧬 Procedimentos vinculados: {'(Nenhum)' if not procedimentos else ''}")
         for procedimento in procedimentos:
-            print(procedimento)
-        print(f"Pagamentos: {'Nenhum' if not pagamentos else ''}")
+            print(f"   🔸 {procedimento}")
+            
+        print(f"💳 Pagamentos realizados: {'(Nenhum)' if not pagamentos else ''}")
         for pagamento in pagamentos:
-            print(pagamento)
-        print(f"Valor Total (Com Procedimentos): {valor_total}")
-        print(f"Valor Total Pago: {valor_pago}")
+            print(f"   💵 {pagamento}")
+            
+        print(f"💵 Valor Total (Base + Procedimentos): R$ {valor_total}")
+        print(f"✅ Valor Total Pago até o momento: R$ {valor_pago}")
 
     def opcoes_listar_atendimentos(self):
-        print("---- Listar Atendimentos ----")
-        print("1 - Listar todos os atendimentos")
-        print("2 - Listar atendimentos por paciente")
-        print("3 - Listar atendimentos por profissional")
-        print("4 - Listar atendimentos por clínica")
-        print("5 - Listar atendimentos por data")
-        print("0 - Voltar")
+        print("\n📋 -------- BUSCAR & LISTAR ATENDIMENTOS -------- 📋")
+        print("1️⃣ - Listar TODOS os Atendimentos")
+        print("2️⃣ - Buscar Atendimentos por Paciente (CPF)")
+        print("3️⃣ - Buscar Atendimentos por Profissional (CPF)")
+        print("4️⃣ - Buscar Atendimentos por Clínica (ID)")
+        print("5️⃣ - Buscar Atendimentos por Intervalo de Datas")
+        print("0️⃣ - Voltar ao Menu Anterior")
 
-        opcao = int(input("Escolha uma opção: "))
-        return opcao
+        try:
+            opcao = int(input("👉 Escolha uma opção: "))
+            return opcao
+        except ValueError:
+            return -1
 
     def mostra_menu_pagina(self):
         print(
-            "Digite 'n' para próxima página, 'p' para página anterior ou outra tecla para voltar."
+            "➡️ Digite 'n' para próxima página, 'p' para página anterior ou qualquer outra tecla para voltar."
         )
-        resposta = input("Digite sua escolha: ")
+        resposta = input("👉 Sua escolha: ")
         return resposta
 
     def tela_opcoes(self):
-        print("---- Gerenciar Atendimentos ----")
-        print("1 - Mostrar Atendimento")
-        print("2 - Excluir Atendimento")
-        print("3 - Listar Atendimentos")
-        print("4 - Incluir Atendimento")
-        print("5 - Alterar Atendimento")
-        print("6 - Gerenciar Procedimentos")
-        print("0 - Voltar")
+        print("\n📅 ---- GERENCIAR ATENDIMENTOS & CONSULTAS ---- 📅")
+        print("1️⃣ - Mostrar Detalhes de um Atendimento")
+        print("2️⃣ - Excluir Atendimento")
+        print("3️⃣ - Buscar & Listar Atendimentos")
+        print("4️⃣ - Incluir Novo Atendimento")
+        print("5️⃣ - Alterar Atendimento Existente")
+        print("6️⃣ - Gerenciar Procedimentos de um Atendimento")
+        print("0️⃣ - Voltar ao Menu Principal")
 
-        opcao = int(input("Escolha uma opção: "))
-        return opcao
+        try:
+            opcao = int(input("👉 Escolha uma opção: "))
+            return opcao
+        except ValueError:
+            return -1
 
     def pega_cpf_paciente(self):
-        cpf = input("Digite o CPF do paciente: ")
+        cpf = input("🩺 Digite o CPF do paciente: ")
         return cpf
 
     def pega_cpf_profissional(self):
-        cpf = input("Digite o CPF do profissional: ")
+        cpf = input("🥼 Digite o CPF do profissional/médico: ")
         return cpf
 
     def pega_id_clinica(self):
-        id_clinica = int(input("Digite o ID da clínica: "))
-        return id_clinica
+        try:
+            id_clinica = int(input("🏥 Digite o ID da clínica: "))
+            return id_clinica
+        except ValueError:
+            print("⚠️ ID inválido!")
+            return -1
 
     def pega_data_inicio(self):
-        data_inicio = input("Digite a data de início (dd/mm/aaaa): ")
+        data_inicio = input("📅 Digite a data de início (dd/mm/aaaa): ")
         return data_inicio
 
     def pega_data_fim(self):
-        data_fim = input("Digite a data de fim (dd/mm/aaaa): ")
+        data_fim = input("📅 Digite a data de fim (dd/mm/aaaa): ")
         return data_fim

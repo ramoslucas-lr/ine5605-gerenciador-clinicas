@@ -3,32 +3,45 @@ class TelaRelatorio:
         pass
 
     def solicita_top_n(self):
-        top_n = int(input("Quantos itens deseja listar? "))
-        return top_n
+        try:
+            top_n = int(input("🔢 Quantos itens deseja listar no ranking? "))
+            return top_n
+        except ValueError:
+            print("⚠️ Valor inválido! Usando padrão de 3 itens.")
+            return 3
     
     def solicita_ordem(self):
-        print("1 - Mais caros")
-        print("2 - Mais baratos")
-        ordem = int(input("Escolha a ordem: "))
-        return ordem
+        print("\n↕️ Escolha a ordenação:")
+        print("1️⃣ - Mais caros (Decrescente)")
+        print("2️⃣ - Mais baratos (Crescente)")
+        try:
+            ordem = int(input("👉 Escolha a ordem: "))
+            return ordem
+        except ValueError:
+            return 1
     
     def mostra_atendimentos(self, atendimentos):
+        print("\n📋 ==== RESULTADO DOS ATENDIMENTOS ====")
         for atendimento in atendimentos:
-            print(atendimento)
+            print(f"🔹 {atendimento}")
     
     def mostra_procedimentos(self, procedimentos):
+        print("\n📋 ==== RESULTADO DOS PROCEDIMENTOS ====")
         for procedimento in procedimentos:
-            print(procedimento)
+            print(f"🔸 {procedimento}")
     
     def mostra_opcoes(self):
-        print("--- Relatórios ---")
-        print("1 - Top clínicas com mais atendimentos")
-        print("2 - Atendimentos mais caros ou baratos")
-        print("3 - Procedimentos mais realizados")
-        print("4 - Procedimentos mais caros ou baratos")
-        print("0 - Voltar")
-        op = int(input("Escolha uma opção: "))
-        return op
+        print("\n📊 -------- RELATÓRIOS & ESTATÍSTICAS -------- 📊")
+        print("1️⃣ - Top Clínicas com mais Atendimentos")
+        print("2️⃣ - Atendimentos mais Caros ou Baratos")
+        print("3️⃣ - Procedimentos mais Realizados")
+        print("4️⃣ - Procedimentos mais Caros ou Baratos")
+        print("0️⃣ - Voltar ao Menu Anterior")
+        try:
+            op = int(input("👉 Escolha uma opção: "))
+            return op
+        except ValueError:
+            return -1
 
     def mostra_mensagem(self, mensagem):
-        print(mensagem)
+        print(f"✨ {mensagem}")
