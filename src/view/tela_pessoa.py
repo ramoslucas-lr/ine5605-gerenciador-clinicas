@@ -64,9 +64,7 @@ class TelaPessoa:
         celular = input(f"📞 Celular [{celular}]: ") or celular
         cpf = input(f"🪪 CPF [{cpf}]: ") or cpf
         data_nascimento = (
-            input(
-                f"📅 Data de Nascimento (dd/mm/aaaa) [{data_nascimento}]: "
-            )
+            input(f"📅 Data de Nascimento (dd/mm/aaaa) [{data_nascimento}]: ")
             or data_nascimento
         )
 
@@ -89,7 +87,9 @@ class TelaPessoa:
         print(f"✨ {mensagem}")
 
     def confirma_exclusao(self, nome):
-        resposta = input(f"❓ Tem certeza absoluta que deseja excluir a pessoa '{nome}'? (s/n): ")
+        resposta = input(
+            f"❓ Tem certeza absoluta que deseja excluir a pessoa '{nome}'? (s/n): "
+        )
         return resposta.lower() == "s"
 
     def seleciona_tipo_papel(self):

@@ -45,25 +45,18 @@ class TelaAtendimento:
     ):
         print("\n✏️ Editar Atendimento (deixe em branco para manter o valor atual):")
         ts_inicio = (
-            input(
-                f"✍️ Data e hora de início (dd/mm/aaaa HH:MM) [{ts_inicio}]: "
-            )
+            input(f"✍️ Data e hora de início (dd/mm/aaaa HH:MM) [{ts_inicio}]: ")
             or ts_inicio
         )
         ts_fim = (
-            input(
-                f"✍️ Data e hora de fim (dd/mm/aaaa HH:MM) [{ts_fim}]: "
-            )
-            or ts_fim
+            input(f"✍️ Data e hora de fim (dd/mm/aaaa HH:MM) [{ts_fim}]: ") or ts_fim
         )
         valor = input(f"💰 Valor do atendimento [{valor}]: ") or valor
         tipo_atendimento = (
             input(f"🏷️ ID do tipo do atendimento [{tipo_atendimento}]: ")
             or tipo_atendimento
         )
-        cpf_paciente = (
-            input(f"🩺 CPF do paciente [{cpf_paciente}]: ") or cpf_paciente
-        )
+        cpf_paciente = input(f"🩺 CPF do paciente [{cpf_paciente}]: ") or cpf_paciente
         cpf_profissional = (
             input(f"🥼 CPF do profissional/médico [{cpf_profissional}]: ")
             or cpf_profissional
@@ -98,7 +91,9 @@ class TelaAtendimento:
         print("\n🧬 Novo Procedimento no Atendimento:")
         descricao = input("✍️ Descrição / Nome do procedimento: ")
         valor = input("💰 Valor do procedimento (R$): ")
-        cpf_profissional = input("🥼 CPF do profissional responsável pelo procedimento: ")
+        cpf_profissional = input(
+            "🥼 CPF do profissional responsável pelo procedimento: "
+        )
 
         return {
             "descricao": descricao,
@@ -124,14 +119,10 @@ class TelaAtendimento:
 
     def pega_dados_procedimento_alteracao(self, descricao, valor, cpf_profissional):
         print("\n✏️ Alterar Procedimento (deixe em branco para manter o valor atual):")
-        descricao = (
-            input(f"✍️ Descrição [{descricao}]: ") or descricao
-        )
+        descricao = input(f"✍️ Descrição [{descricao}]: ") or descricao
         valor = input(f"💰 Valor [{valor}]: ") or valor
         cpf_profissional = (
-            input(
-                f"🥼 CPF do profissional responsável [{cpf_profissional}]: "
-            )
+            input(f"🥼 CPF do profissional responsável [{cpf_profissional}]: ")
             or cpf_profissional
         )
 
@@ -164,15 +155,15 @@ class TelaAtendimento:
         print(f"🩺 Paciente: {paciente_nome}")
         print(f"🥼 Profissional: {profissional_nome}")
         print(f"🏥 Clínica: {clinica_nome}")
-        
+
         print(f"🧬 Procedimentos vinculados: {'(Nenhum)' if not procedimentos else ''}")
         for procedimento in procedimentos:
             print(f"   🔸 {procedimento}")
-            
+
         print(f"💳 Pagamentos realizados: {'(Nenhum)' if not pagamentos else ''}")
         for pagamento in pagamentos:
             print(f"   💵 {pagamento}")
-            
+
         print(f"💵 Valor Total (Base + Procedimentos): R$ {valor_total}")
         print(f"✅ Valor Total Pago até o momento: R$ {valor_pago}")
 

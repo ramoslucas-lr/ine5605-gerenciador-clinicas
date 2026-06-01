@@ -17,7 +17,7 @@ class ControladorAtendimento:
     @property
     def atendimentos(self):
         return self.__atendimentos.values()
-    
+
     def buscar_atendimento(self, id):
         return self.__atendimentos.get(id)
 

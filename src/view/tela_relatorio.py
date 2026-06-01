@@ -9,7 +9,7 @@ class TelaRelatorio:
         except ValueError:
             print("⚠️ Valor inválido! Usando padrão de 3 itens.")
             return 3
-    
+
     def solicita_ordem(self):
         print("\n↕️ Escolha a ordenação:")
         print("1️⃣ - Mais caros (Decrescente)")
@@ -19,17 +19,17 @@ class TelaRelatorio:
             return ordem
         except ValueError:
             return 1
-    
+
     def mostra_atendimentos(self, atendimentos):
         print("\n📋 ==== RESULTADO DOS ATENDIMENTOS ====")
         for atendimento in atendimentos:
             print(f"🔹 {atendimento}")
-    
+
     def mostra_procedimentos(self, procedimentos):
         print("\n📋 ==== RESULTADO DOS PROCEDIMENTOS ====")
         for procedimento in procedimentos:
             print(f"🔸 {procedimento}")
-    
+
     def mostra_opcoes(self):
         print("\n📊 -------- RELATÓRIOS & ESTATÍSTICAS -------- 📊")
         print("1️⃣ - Top Clínicas com mais Atendimentos")

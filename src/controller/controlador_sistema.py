@@ -14,7 +14,7 @@ class ControladorSistema:
     @property
     def controlador_pessoa(self) -> ControladorPessoa:
         return self.__controlador_pessoa
-    
+
     @property
     def controlador_atendimento(self) -> ControladorAtendimento:
         return self.__controlador_atendimento
