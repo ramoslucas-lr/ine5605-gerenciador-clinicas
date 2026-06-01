@@ -12,8 +12,8 @@ class TelaRelatorio:
 
     def solicita_ordem(self):
         print("\n↕️ Escolha a ordenação:")
-        print("1️⃣ - Mais caros (Decrescente)")
-        print("2️⃣ - Mais baratos (Crescente)")
+        print("1 - Mais caros (Decrescente)")
+        print("2 - Mais baratos (Crescente)")
         try:
             ordem = int(input("👉 Escolha a ordem: "))
             return ordem
@@ -32,11 +32,11 @@ class TelaRelatorio:
 
     def mostra_opcoes(self):
         print("\n📊 -------- RELATÓRIOS & ESTATÍSTICAS -------- 📊")
-        print("1️⃣ - Top Clínicas com mais Atendimentos")
-        print("2️⃣ - Atendimentos mais Caros ou Baratos")
-        print("3️⃣ - Procedimentos mais Realizados")
-        print("4️⃣ - Procedimentos mais Caros ou Baratos")
-        print("0️⃣ - Voltar ao Menu Anterior")
+        print("1 - Top Clínicas com mais Atendimentos")
+        print("2 - Atendimentos mais Caros ou Baratos")
+        print("3 - Procedimentos mais Realizados")
+        print("4 - Procedimentos mais Caros ou Baratos")
+        print("0 - Voltar ao Menu Anterior")
         try:
             op = int(input("👉 Escolha uma opção: "))
             return op

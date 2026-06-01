@@ -7,12 +7,12 @@ class TelaPessoa:
 
     def mostrar_opcoes(self):
         print("\n👥 ---- GERENCIAR PESSOAS ---- 👥")
-        print("1️⃣ - Incluir Nova Pessoa")
-        print("2️⃣ - Alterar Pessoa Existente")
-        print("3️⃣ - Excluir Pessoa")
-        print("4️⃣ - Listar Todas as Pessoas")
-        print("5️⃣ - Buscar Pessoa por CPF")
-        print("0️⃣ - Voltar ao Menu Principal")
+        print("1 - Incluir Nova Pessoa")
+        print("2 - Alterar Pessoa Existente")
+        print("3 - Excluir Pessoa")
+        print("4 - Listar Todas as Pessoas")
+        print("5 - Buscar Pessoa por CPF")
+        print("0 - Voltar ao Menu Principal")
 
         try:
             opcao = int(input("👉 Escolha uma opção: "))
@@ -94,8 +94,8 @@ class TelaPessoa:
 
     def seleciona_tipo_papel(self):
         print("\n💼 Selecione o papel para esta pessoa:")
-        print("1️⃣ - Paciente")
-        print("2️⃣ - Profissional da Saúde")
+        print("1 - Paciente")
+        print("2 - Profissional da Saúde")
         try:
             opcao = int(input("👉 Escolha uma opção: "))
             return opcao
@@ -115,9 +115,9 @@ class TelaPessoa:
 
     def mostrar_opcoes_papeis(self):
         print("\n⚙️ -- Gerenciar Papéis da Pessoa --")
-        print("1️⃣ - Adicionar Papel")
-        print("2️⃣ - Remover Papel")
-        print("0️⃣ - Concluir e Voltar")
+        print("1 - Adicionar Papel")
+        print("2 - Remover Papel")
+        print("0 - Concluir e Voltar")
         try:
             opcao = int(input("👉 Escolha uma opção: "))
             return opcao

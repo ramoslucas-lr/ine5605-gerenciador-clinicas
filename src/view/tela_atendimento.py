@@ -75,11 +75,11 @@ class TelaAtendimento:
 
     def mostra_menu_procedimentos(self):
         print("\n🛠️ ---- GERENCIAR PROCEDIMENTOS ---- 🛠️")
-        print("1️⃣ - Incluir Novo Procedimento")
-        print("2️⃣ - Alterar Procedimento Existente")
-        print("3️⃣ - Excluir Procedimento")
-        print("4️⃣ - Listar Procedimentos do Atendimento")
-        print("0️⃣ - Voltar ao Menu Anterior")
+        print("1 - Incluir Novo Procedimento")
+        print("2 - Alterar Procedimento Existente")
+        print("3 - Excluir Procedimento")
+        print("4 - Listar Procedimentos do Atendimento")
+        print("0 - Voltar ao Menu Anterior")
 
         try:
             opcao = int(input("👉 Escolha uma opção: "))
@@ -169,12 +169,12 @@ class TelaAtendimento:
 
     def opcoes_listar_atendimentos(self):
         print("\n📋 -------- BUSCAR & LISTAR ATENDIMENTOS -------- 📋")
-        print("1️⃣ - Listar TODOS os Atendimentos")
-        print("2️⃣ - Buscar Atendimentos por Paciente (CPF)")
-        print("3️⃣ - Buscar Atendimentos por Profissional (CPF)")
-        print("4️⃣ - Buscar Atendimentos por Clínica (ID)")
-        print("5️⃣ - Buscar Atendimentos por Intervalo de Datas")
-        print("0️⃣ - Voltar ao Menu Anterior")
+        print("1 - Listar TODOS os Atendimentos")
+        print("2 - Buscar Atendimentos por Paciente (CPF)")
+        print("3 - Buscar Atendimentos por Profissional (CPF)")
+        print("4 - Buscar Atendimentos por Clínica (ID)")
+        print("5 - Buscar Atendimentos por Intervalo de Datas")
+        print("0 - Voltar ao Menu Anterior")
 
         try:
             opcao = int(input("👉 Escolha uma opção: "))
@@ -191,13 +191,13 @@ class TelaAtendimento:
 
     def tela_opcoes(self):
         print("\n📅 ---- GERENCIAR ATENDIMENTOS & CONSULTAS ---- 📅")
-        print("1️⃣ - Mostrar Detalhes de um Atendimento")
-        print("2️⃣ - Excluir Atendimento")
-        print("3️⃣ - Buscar & Listar Atendimentos")
-        print("4️⃣ - Incluir Novo Atendimento")
-        print("5️⃣ - Alterar Atendimento Existente")
-        print("6️⃣ - Gerenciar Procedimentos de um Atendimento")
-        print("0️⃣ - Voltar ao Menu Principal")
+        print("1 - Mostrar Detalhes de um Atendimento")
+        print("2 - Excluir Atendimento")
+        print("3 - Buscar & Listar Atendimentos")
+        print("4 - Incluir Novo Atendimento")
+        print("5 - Alterar Atendimento Existente")
+        print("6 - Gerenciar Procedimentos de um Atendimento")
+        print("0 - Voltar ao Menu Principal")
 
         try:
             opcao = int(input("👉 Escolha uma opção: "))
