@@ -13,6 +13,86 @@ class ControladorAtendimento:
         self.__atendimentos = {}
         self.__controlador_sistema = controlador_sistema
         self.__tela_atendimento = TelaAtendimento()
+        self.inicializar_dados_teste()
+
+    def inicializar_dados_teste(self):
+        controlador_pessoa = self.__controlador_sistema.controlador_pessoa
+        
+        clinica = Clinica(
+            1,
+            "Clinica Central",
+            "Av. Beira Mar, 100",
+            "Clinica Geral e Especializada",
+            hora_abertura=time(8, 0),
+            hora_fechamento=time(18, 0),
+        )
+        tipo_atendimento = TipoAtendimento(1, "Consulta Médica", "Consulta de rotina")
+        
+        pacientes_cpfs = [
+            "11111111111", "22222222222", "33333333333", "44444444444", "55555555555",
+            "66666666666", "77777777777", "88888888888", "99999999999", "10101010101"
+        ]
+        medicos_cpfs = [
+            "12121212121", "23232323232", "34343434343", "45454545454", "56565656565",
+            "67676767676", "78787878787", "89898989898", "90909090909", "10203040506"
+        ]
+        
+        valores_base = [
+            Decimal("100.00"), Decimal("150.00"), Decimal("200.00"), Decimal("250.00"), Decimal("300.00"),
+            Decimal("350.00"), Decimal("400.00"), Decimal("450.00"), Decimal("500.00"), Decimal("550.00")
+        ]
+        
+        for i in range(10):
+            idx = i + 1
+            ts_inicio = datetime(2026, 5, idx, 9, 0)
+            ts_fim = datetime(2026, 5, idx, 10, 0)
+            
+            paciente = controlador_pessoa.buscar_pessoa(pacientes_cpfs[i])
+            profissional = controlador_pessoa.buscar_pessoa(medicos_cpfs[i])
+            
+            atendimento = Atendimento(
+                idx,
+                ts_inicio,
+                ts_fim,
+                valores_base[i],
+                tipo_atendimento,
+                paciente,
+                profissional,
+                clinica
+            )
+            self.__atendimentos[idx] = atendimento
+            
+        procedimentos_tabela = {
+            1: ("Consulta de Rotina", Decimal("80.00")),
+            2: ("Exame de Sangue", Decimal("50.00")),
+            3: ("Eletrocardiograma", Decimal("120.00")),
+            4: ("Ultrassonografia", Decimal("150.00")),
+            5: ("Radiografia", Decimal("90.00")),
+            6: ("Endoscopia", Decimal("300.00")),
+            7: ("Ressonância Magnética", Decimal("600.00")),
+            8: ("Tomografia", Decimal("400.00")),
+            9: ("Fisioterapia", Decimal("70.00")),
+            10: ("Aplicação de Vacina", Decimal("30.00"))
+        }
+        
+        distribuicao = {
+            1: [1, 2, 3],
+            2: [1, 2, 4],
+            3: [1, 2, 5],
+            4: [1, 2, 6],
+            5: [1, 2, 7],
+            6: [1, 3, 8],
+            7: [1, 3, 9],
+            8: [1, 4],
+            9: [2, 5],
+            10: [3, 10]
+        }
+        
+        for apt_id, proc_ids in distribuicao.items():
+            atendimento = self.__atendimentos[apt_id]
+            for proc_id in proc_ids:
+                desc, val = procedimentos_tabela[proc_id]
+                atendimento.adiciona_procedimento(desc, val, atendimento.profissional)
 
     @property
     def atendimentos(self):

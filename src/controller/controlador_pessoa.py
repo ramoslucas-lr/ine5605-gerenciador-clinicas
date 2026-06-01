@@ -12,6 +12,48 @@ class ControladorPessoa:
         self.__pessoas = {}
         self.__controlador_sistema = controlador_sistema
         self.__tela_pessoa = TelaPessoa()
+        self.inicializar_dados_teste()
+
+    def inicializar_dados_teste(self):
+        # 10 Pacientes
+        pacientes_dados = [
+            ("Paciente Um", "48999990001", "11111111111", "01/01/1990"),
+            ("Paciente Dois", "48999990002", "22222222222", "02/02/1990"),
+            ("Paciente Tres", "48999990003", "33333333333", "03/03/1990"),
+            ("Paciente Quatro", "48999990004", "44444444444", "04/04/1990"),
+            ("Paciente Cinco", "48999990005", "55555555555", "05/05/1990"),
+            ("Paciente Seis", "48999990006", "66666666666", "06/06/1990"),
+            ("Paciente Sete", "48999990007", "77777777777", "07/07/1990"),
+            ("Paciente Oito", "48999990008", "88888888888", "08/08/1990"),
+            ("Paciente Nove", "48999990009", "99999999999", "09/09/1990"),
+            ("Paciente Dez", "48999990101", "10101010101", "10/10/1990")
+        ]
+        
+        for nome, celular, cpf, data_nasc_str in pacientes_dados:
+            dt_nasc = datetime.strptime(data_nasc_str, "%d/%m/%Y")
+            p = Pessoa(nome, celular, cpf, dt_nasc)
+            p.adicionar_papel_paciente()
+            self.__pessoas[cpf] = p
+
+        # 10 Profissionais (Médicos)
+        medicos_dados = [
+            ("Medico Um", "48988880001", "12121212121", "01/01/1980", "11111", "Cardiologia"),
+            ("Medico Dois", "48988880002", "23232323232", "02/02/1980", "22222", "Pediatria"),
+            ("Medico Tres", "48988880003", "34343434343", "03/03/1980", "33333", "Dermatologia"),
+            ("Medico Quatro", "48988880004", "45454545454", "04/04/1980", "44444", "Ortopedia"),
+            ("Medico Cinco", "48988880005", "56565656565", "05/05/1980", "55555", "Neurologia"),
+            ("Medico Seis", "48988880006", "67676767676", "06/06/1980", "66666", "Ginecologia"),
+            ("Medico Sete", "48988880007", "78787878787", "07/07/1980", "77777", "Oftalmologia"),
+            ("Medico Oito", "48988880008", "89898989898", "08/08/1980", "88888", "Psiquiatria"),
+            ("Medico Nove", "48988880009", "90909090909", "09/09/1980", "99999", "Otorrinolaringologia"),
+            ("Medico Dez", "48988880100", "10203040506", "10/10/1980", "10101", "Urologia")
+        ]
+        
+        for nome, celular, cpf, data_nasc_str, reg_prof, esp in medicos_dados:
+            dt_nasc = datetime.strptime(data_nasc_str, "%d/%m/%Y")
+            p = Pessoa(nome, celular, cpf, dt_nasc)
+            p.adicionar_papel_profissional(reg_prof, esp)
+            self.__pessoas[cpf] = p
 
     def buscar_pessoa(self, cpf):
         return self.__pessoas.get(cpf)
