@@ -1,4 +1,5 @@
 from controller.controlador_atendimento import ControladorAtendimento
+from controller.controlador_relatorio import ControladorRelatorio
 from view.tela_sistema import TelaSistema
 from controller.controlador_pessoa import ControladorPessoa
 
@@ -8,10 +9,15 @@ class ControladorSistema:
         self.__tela_sistema = TelaSistema()
         self.__controlador_pessoa = ControladorPessoa(self)
         self.__controlador_atendimento = ControladorAtendimento(self)
+        self.__controlador_relatorio = ControladorRelatorio(self)
 
     @property
     def controlador_pessoa(self) -> ControladorPessoa:
         return self.__controlador_pessoa
+    
+    @property
+    def controlador_atendimento(self) -> ControladorAtendimento:
+        return self.__controlador_atendimento
 
     def inicializa_sistema(self):
         self.abre_tela()
@@ -39,8 +45,7 @@ class ControladorSistema:
         self.__controlador_atendimento.abre_tela()
 
     def relatorios(self):
-        print("Relatórios")
-        # Lógica para geração de relatórios
+        self.__controlador_relatorio.abre_tela()
 
     def finalizar_sistema(self):
         self.__tela_sistema.mensagem("Sistema finalizado. Até logo!")

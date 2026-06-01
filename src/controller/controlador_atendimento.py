@@ -14,6 +14,10 @@ class ControladorAtendimento:
         self.__controlador_sistema = controlador_sistema
         self.__tela_atendimento = TelaAtendimento()
 
+    @property
+    def atendimentos(self):
+        return self.__atendimentos.values()
+    
     def buscar_atendimento(self, id):
         return self.__atendimentos.get(id)
 
