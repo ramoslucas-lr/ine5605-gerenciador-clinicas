@@ -3,9 +3,9 @@ pode ter os papéis de paciente e/ou profissional."""
 
 from datetime import datetime
 
-from papel import Papel
-from papel_paciente import PapelPaciente
-from papel_profissional import PapelProfissional
+from models.papel import Papel
+from models.papel_paciente import PapelPaciente
+from models.papel_profissional import PapelProfissional
 
 
 class Pessoa:
@@ -14,10 +14,10 @@ class Pessoa:
     def __init__(
         self, nome: str, celular: str, cpf: str, data_nascimento: datetime
     ) -> None:
-        self.nome = nome
-        self.celular = celular
-        self.cpf = cpf
-        self.data_nascimento = data_nascimento
+        self.__nome = nome
+        self.__celular = celular
+        self.__cpf = cpf
+        self.__data_nascimento = data_nascimento
         self.__papeis = []
 
     @property

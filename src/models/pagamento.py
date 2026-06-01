@@ -5,10 +5,10 @@ com seus atributos e métodos relacionados."""
 from decimal import Decimal
 from datetime import datetime
 
-from pessoa import Pessoa
-from atendimento import Atendimento
-from metodo_pagamento import MetodoPagamento
-from papel_paciente import PapelPaciente
+from models.pessoa import Pessoa
+from models.atendimento import Atendimento
+from models.metodo_pagamento import MetodoPagamento
+from models.papel_paciente import PapelPaciente
 
 
 class Pagamento:
@@ -24,11 +24,11 @@ class Pagamento:
         atendimento: Atendimento,
         metodo_pagamento: MetodoPagamento,
     ):
-        self.data = data
-        self.valor = valor
-        self.paciente = paciente
-        self.atendimento = atendimento
-        self.metodo_pagamento = metodo_pagamento
+        self.__data = data
+        self.__valor = valor
+        self.__paciente = paciente
+        self.__atendimento = atendimento
+        self.__metodo_pagamento = metodo_pagamento
 
         # Registra o snapshot do saldo devedor no momento do pagamento
         self.__valor_restante = atendimento.valor_restante - self.valor

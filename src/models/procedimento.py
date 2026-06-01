@@ -4,18 +4,23 @@ um procedimento realizado em um atendimento, com seus atributos e métodos relac
 
 from decimal import Decimal
 
-from pessoa import Pessoa
-from papel_profissional import PapelProfissional
+from models.pessoa import Pessoa
+from models.papel_profissional import PapelProfissional
 
 
 class Procedimento:
     """Representa um procedimento realizado em um atendimento, contendo informações
     como descrição, valor e o profissional responsável pelo procedimento."""
 
-    def __init__(self, descricao: str, valor: Decimal, profissional: Pessoa):
-        self.descricao = descricao
-        self.valor = valor
-        self.profissional = profissional
+    def __init__(self, id: int, descricao: str, valor: Decimal, profissional: Pessoa):
+        self.__id = id
+        self.__descricao = descricao
+        self.__valor = valor
+        self.__profissional = profissional
+
+    @property
+    def id(self) -> int:
+        return self.__id
 
     @property
     def descricao(self) -> str:
@@ -54,3 +59,6 @@ class Procedimento:
         ):
             raise ValueError("O profissional deve ter o papel de profissional.")
         self.__profissional = profissional
+
+    def __str__(self):
+        return f"{self.__id} - Procedimento: {self.descricao}, Valor: {self.valor}, Profissional: {self.profissional.nome}"

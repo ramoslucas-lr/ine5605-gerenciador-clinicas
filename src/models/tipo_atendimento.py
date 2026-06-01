@@ -1,8 +1,17 @@
 class TipoAtendimento:
 
-    def __init__(self, nome: str, descricao: str):
+    def __init__(self, id: int, nome: str, descricao: str):
+        self.__id = id
         self.__nome = nome
         self.__descricao = descricao
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, id):
+        self.__id = id
 
     @property
     def nome(self):
