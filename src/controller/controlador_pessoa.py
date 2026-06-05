@@ -49,9 +49,13 @@ class ControladorPessoa:
 
         if dados_pessoa is not None:
             if self.buscar_pessoa(dados_pessoa["cpf"]) is None:
-                data_nascimento = datetime.strptime(
-                    dados_pessoa["data_nascimento"], "%d/%m/%Y"
-                )
+                try:
+                    data_nascimento = datetime.strptime(
+                        dados_pessoa["data_nascimento"], "%d/%m/%Y"
+                    )
+                except ValueError:
+                    self.__tela_pessoa.mostra_mensagem("Data de nascimento inválida.")
+                    return
 
                 pessoa = Pessoa(
                     dados_pessoa["nome"],
@@ -60,17 +64,32 @@ class ControladorPessoa:
                     data_nascimento,
                 )
                 self.__pessoas[pessoa.cpf] = pessoa
-
-                tipo_papel = self.__tela_pessoa.seleciona_tipo_papel()
-                if tipo_papel == TipoPapel.PACIENTE.value:
-                    pessoa.adicionar_papel_paciente()
-                elif tipo_papel == TipoPapel.PROFISSIONAL.value:
-                    reg_profissional, especialidade = (
-                        self.__tela_pessoa.pega_dados_papel_profissional()
-                    )
-                    pessoa.adicionar_papel_profissional(reg_profissional, especialidade)
-
                 self.__tela_pessoa.mostra_mensagem("Pessoa incluída com sucesso.")
+
+                while True:
+                    tipo_papel = self.__tela_pessoa.seleciona_tipo_papel()
+
+                    if tipo_papel == TipoPapel.PACIENTE.value:
+                        pessoa.adicionar_papel_paciente()
+                        self.__tela_pessoa.mostra_mensagem(
+                            "Papel de paciente adicionado."
+                        )
+                        break
+                    elif tipo_papel == TipoPapel.PROFISSIONAL.value:
+                        reg_profissional, especialidade = (
+                            self.__tela_pessoa.pega_dados_papel_profissional()
+                        )
+                        pessoa.adicionar_papel_profissional(
+                            reg_profissional, especialidade
+                        )
+                        self.__tela_pessoa.mostra_mensagem(
+                            "Papel de profissional da saúde adicionado."
+                        )
+                        break
+                    else:
+                        print("Papel inválido. Nenhum papel adicionado.")
+                        continue
+
             else:
                 self.__tela_pessoa.mostra_mensagem(
                     "CPF já cadastrado. Tente novamente."
@@ -91,9 +110,15 @@ class ControladorPessoa:
                 pessoa.celular = dados_pessoa["celular"]
                 data_nascimento = dados_pessoa["data_nascimento"]
                 if isinstance(dados_pessoa["data_nascimento"], str):
-                    data_nascimento = datetime.strptime(
-                        dados_pessoa["data_nascimento"], "%d/%m/%Y"
-                    )
+                    try:
+                        data_nascimento = datetime.strptime(
+                            dados_pessoa["data_nascimento"], "%d/%m/%Y"
+                        )
+                    except ValueError:
+                        self.__tela_pessoa.mostra_mensagem(
+                            "Data de nascimento inválida."
+                        )
+                        return
                 pessoa.data_nascimento = data_nascimento
                 pessoa.cpf = dados_pessoa["cpf"]
 
@@ -108,6 +133,8 @@ class ControladorPessoa:
                     del self.__pessoas[cpf]
 
                 self.__tela_pessoa.mostra_mensagem("Pessoa alterada com sucesso.")
+        else:
+            self.__tela_pessoa.mostra_mensagem("Pessoa não encontrada.")
 
     def excluir_pessoa(self):
         cpf = self.__tela_pessoa.seleciona_pessoa()
@@ -118,6 +145,8 @@ class ControladorPessoa:
             if confirma:
                 del self.__pessoas[cpf]
             self.__tela_pessoa.mostra_mensagem("Pessoa excluída com sucesso.")
+        else:
+            self.__tela_pessoa.mostra_mensagem("Pessoa não encontrada.")
 
     def listar_pessoas(self, page=1):
         page_size = 5
@@ -218,13 +247,24 @@ class ControladorPessoa:
 
     def adicionar_papel(self, pessoa):
         tipo_papel = self.__tela_pessoa.seleciona_tipo_papel()
-        if tipo_papel == TipoPapel.PACIENTE.value:
-            pessoa.adicionar_papel_paciente()
-        elif tipo_papel == TipoPapel.PROFISSIONAL.value:
-            reg_profissional, especialidade = (
-                self.__tela_pessoa.pega_dados_papel_profissional()
-            )
-            pessoa.adicionar_papel_profissional(reg_profissional, especialidade)
+        try:
+            if tipo_papel == TipoPapel.PACIENTE.value:
+                pessoa.adicionar_papel_paciente()
+                self.__tela_pessoa.mostra_mensagem("Papel de paciente adicionado.")
+            elif tipo_papel == TipoPapel.PROFISSIONAL.value:
+                reg_profissional, especialidade = (
+                    self.__tela_pessoa.pega_dados_papel_profissional()
+                )
+                pessoa.adicionar_papel_profissional(reg_profissional, especialidade)
+                self.__tela_pessoa.mostra_mensagem(
+                    "Papel de profissional da saúde adicionado."
+                )
+            else:
+                self.__tela_pessoa.mostra_mensagem(
+                    "Papel inválido. Nenhum papel adicionado."
+                )
+        except ValueError as e:
+            self.__tela_pessoa.mostra_mensagem(f"Erro ao adicionar papel: {e}")
 
     def remover_papel(self, pessoa):
         tipo_papel = self.__tela_pessoa.seleciona_tipo_papel()

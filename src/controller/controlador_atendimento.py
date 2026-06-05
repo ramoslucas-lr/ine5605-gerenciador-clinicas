@@ -1,5 +1,5 @@
 from datetime import datetime, time
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 
 from models.atendimento import Atendimento
 from models.clinica import Clinica
@@ -33,6 +33,19 @@ class ControladorAtendimento:
             profissional = self.__controlador_sistema.controlador_pessoa.buscar_pessoa(
                 dados_atendimento["cpf_profissional"]
             )
+
+            if paciente is None or not paciente.tem_papel_paciente():
+                self.__tela_atendimento.mostra_mensagem(
+                    "Paciente não encontrado ou sem papel de paciente. Atendimento não incluído."
+                )
+                return
+
+            if profissional is None or not profissional.tem_papel_profissional():
+                self.__tela_atendimento.mostra_mensagem(
+                    "Profissional não encontrado ou sem papel de profissional. Atendimento não incluído."
+                )
+                return
+
             # TODO: clinica = self.__controlador_sistema.controlador_clinica.buscar_clinica(dados_atendimento["id_clinica"])
             clinica = Clinica(
                 1,
@@ -42,14 +55,35 @@ class ControladorAtendimento:
                 hora_abertura=time(8, 0),
                 hora_fechamento=time(18, 0),
             )
+
+            if clinica is None:
+                self.__tela_atendimento.mostra_mensagem(
+                    "Clínica não encontrada. Atendimento não incluído."
+                )
+                return
             # TODO: tipo_atendimento = self.__controlador_sistema.controlador_tipo_atendimento.buscar_tipo_atendimento(dados_atendimento["id_tipo_atendimento"])
             tipo_atendimento = TipoAtendimento(1, "Exame", "Raio-X")
 
-            ts_inicio = datetime.strptime(
-                dados_atendimento["ts_inicio"], "%d/%m/%Y %H:%M"
-            )
-            ts_fim = datetime.strptime(dados_atendimento["ts_fim"], "%d/%m/%Y %H:%M")
-            valor = Decimal(dados_atendimento["valor"])
+            if tipo_atendimento is None:
+                self.__tela_atendimento.mostra_mensagem(
+                    "Tipo de atendimento não encontrado. Atendimento não incluído."
+                )
+                return
+
+            try:
+                ts_inicio = datetime.strptime(
+                    dados_atendimento["ts_inicio"], "%d/%m/%Y %H:%M"
+                )
+                ts_fim = datetime.strptime(
+                    dados_atendimento["ts_fim"], "%d/%m/%Y %H:%M"
+                )
+                valor = Decimal(dados_atendimento["valor"])
+            except (ValueError, InvalidOperation):
+                self.__tela_atendimento.mostra_mensagem(
+                    "Dados de data/hora ou valor inválidos. Atendimento não incluído."
+                )
+                return
+
             atendimento = Atendimento(
                 prox_id,
                 ts_inicio,
@@ -60,11 +94,8 @@ class ControladorAtendimento:
                 profissional,
                 clinica,
             )
-            print(atendimento)
-            print(atendimento.id)
 
             self.__atendimentos[atendimento.id] = atendimento
-            print(self.__atendimentos)
             # TODO: self.__controlador_sistema.controlador_clinica.adicionar_atendimento_clinica(clinica.id, atendimento)
 
             self.__tela_atendimento.mostra_mensagem("Atendimento incluído com sucesso.")
@@ -86,39 +117,54 @@ class ControladorAtendimento:
                 )
             )
             if dados_atendimento is not None:
-                atendimento.ts_inicio = datetime.strptime(
-                    dados_atendimento["ts_inicio"], "%d/%m/%Y %H:%M"
-                )
-                atendimento.ts_fim = datetime.strptime(
-                    dados_atendimento["ts_fim"], "%d/%m/%Y %H:%M"
-                )
-                atendimento.valor = Decimal(dados_atendimento["valor"])
-
-                # TODO: adicionar buscar por tipo_atendimento
-                # atendimento.tipo_atendimento = self.__controlador_sistema.controlador_tipo_atendimento.buscar_tipo_atendimento(
-                #     dados_atendimento["id_tipo_atendimento"]
-                # )
-
-                atendimento.paciente = (
-                    self.__controlador_sistema.controlador_pessoa.buscar_pessoa(
-                        dados_atendimento["cpf_paciente"]
+                try:
+                    ts_inicio = datetime.strptime(
+                        dados_atendimento["ts_inicio"], "%d/%m/%Y %H:%M"
                     )
+                    ts_fim = datetime.strptime(
+                        dados_atendimento["ts_fim"], "%d/%m/%Y %H:%M"
+                    )
+                    valor = Decimal(dados_atendimento["valor"])
+                except (ValueError, InvalidOperation):
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Dados de data/hora ou valor inválidos. Alteração não realizada."
+                    )
+                    return
+
+                paciente = self.__controlador_sistema.controlador_pessoa.buscar_pessoa(
+                    dados_atendimento["cpf_paciente"]
                 )
-                atendimento.profissional = (
+                profissional = (
                     self.__controlador_sistema.controlador_pessoa.buscar_pessoa(
                         dados_atendimento["cpf_profissional"]
                     )
                 )
 
-                # TODO: adicionar busca por clinica
-                # atendimento.clinica = (
-                #     self.__controlador_sistema.controlador_clinica.buscar_clinica(
-                #         dados_atendimento["id_clinica"]
-                #     )
-                # )
-                self.__tela_atendimento.mostra_mensagem(
-                    "Atendimento alterado com sucesso."
-                )
+                if paciente is None or not paciente.tem_papel_paciente():
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Paciente não encontrado ou sem papel de paciente. Alteração não realizada."
+                    )
+                    return
+
+                if profissional is None or not profissional.tem_papel_profissional():
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Profissional não encontrado ou sem papel de profissional. Alteração não realizada."
+                    )
+                    return
+
+                try:
+                    atendimento.ts_inicio = ts_inicio
+                    atendimento.ts_fim = ts_fim
+                    atendimento.valor = valor
+                    atendimento.paciente = paciente
+                    atendimento.profissional = profissional
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Atendimento alterado com sucesso."
+                    )
+                except ValueError as e:
+                    self.__tela_atendimento.mostra_mensagem(
+                        f"Erro ao alterar atendimento: {e}"
+                    )
         else:
             self.__tela_atendimento.mostra_mensagem("Atendimento não encontrado.")
 
@@ -152,18 +198,31 @@ class ControladorAtendimento:
                         dados_procedimento["cpf_profissional"]
                     )
                 )
-                atendimento.adiciona_procedimento(
-                    dados_procedimento["descricao"],
-                    Decimal(dados_procedimento["valor"]),
-                    profissional,
-                )
-                self.__tela_atendimento.mostra_mensagem(
-                    "Procedimento incluído com sucesso."
-                )
+                if profissional is None or not profissional.tem_papel_profissional():
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Profissional não encontrado ou sem papel de profissional. Procedimento não incluído."
+                    )
+                    return
+                try:
+                    valor = Decimal(dados_procedimento["valor"])
+                    atendimento.adiciona_procedimento(
+                        dados_procedimento["descricao"],
+                        valor,
+                        profissional,
+                    )
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Procedimento incluído com sucesso."
+                    )
+                except (ValueError, InvalidOperation) as e:
+                    self.__tela_atendimento.mostra_mensagem(
+                        f"Erro ao incluir procedimento: {e}"
+                    )
             else:
                 self.__tela_atendimento.mostra_mensagem(
                     "Dados do procedimento inválidos."
                 )
+        else:
+            self.__tela_atendimento.mostra_mensagem("Atendimento não encontrado.")
 
     def excluir_procedimento(self):
         id_atendimento = self.__tela_atendimento.seleciona_atendimento()
@@ -175,11 +234,17 @@ class ControladorAtendimento:
             id_procedimento = self.__tela_atendimento.seleciona_procedimento(
                 procedimento_list_str
             )
-            if id_procedimento is not None:
-                atendimento.excluir_procedimento(id_procedimento)
-                self.__tela_atendimento.mostra_mensagem(
-                    "Procedimento excluído com sucesso."
-                )
+            if (
+                id_procedimento is not None
+                and id_procedimento in atendimento.procedimentos
+            ):
+                try:
+                    atendimento.excluir_procedimento(id_procedimento)
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Procedimento excluído com sucesso."
+                    )
+                except ValueError as e:
+                    self.__tela_atendimento.mostra_mensagem(f"Erro: {e}")
             else:
                 self.__tela_atendimento.mostra_mensagem("Procedimento não encontrado.")
         else:
@@ -206,7 +271,10 @@ class ControladorAtendimento:
             id_procedimento = self.__tela_atendimento.seleciona_procedimento(
                 procedimento_list_str
             )
-            if id_procedimento is not None:
+            if (
+                id_procedimento is not None
+                and id_procedimento in atendimento.procedimentos
+            ):
                 procedimento = atendimento.procedimentos[id_procedimento]
                 dados_procedimento = (
                     self.__tela_atendimento.pega_dados_procedimento_alteracao(
@@ -221,21 +289,37 @@ class ControladorAtendimento:
                             dados_procedimento["cpf_profissional"]
                         )
                     )
-                    atendimento.alterar_procedimento(
-                        id_procedimento,
-                        dados_procedimento["descricao"],
-                        Decimal(dados_procedimento["valor"]),
-                        profissional,
-                    )
-                    self.__tela_atendimento.mostra_mensagem(
-                        "Procedimento alterado com sucesso."
-                    )
+                    if (
+                        profissional is None
+                        or not profissional.tem_papel_profissional()
+                    ):
+                        self.__tela_atendimento.mostra_mensagem(
+                            "Profissional não encontrado ou sem papel de profissional. Alteração não realizada."
+                        )
+                        return
+                    try:
+                        valor = Decimal(dados_procedimento["valor"])
+                        atendimento.alterar_procedimento(
+                            id_procedimento,
+                            dados_procedimento["descricao"],
+                            valor,
+                            profissional,
+                        )
+                        self.__tela_atendimento.mostra_mensagem(
+                            "Procedimento alterado com sucesso."
+                        )
+                    except (ValueError, InvalidOperation) as e:
+                        self.__tela_atendimento.mostra_mensagem(
+                            f"Erro ao alterar procedimento: {e}"
+                        )
                 else:
                     self.__tela_atendimento.mostra_mensagem(
                         "Dados do procedimento inválidos."
                     )
             else:
                 self.__tela_atendimento.mostra_mensagem("Procedimento não encontrado.")
+        else:
+            self.__tela_atendimento.mostra_mensagem("Atendimento não encontrado.")
 
     def mostrar_atendimento(self):
         id = self.__tela_atendimento.seleciona_atendimento()
@@ -300,12 +384,17 @@ class ControladorAtendimento:
         ]
 
     def buscar_atendimentos_por_data(self):
-        data_inicio = datetime.strptime(
-            self.__tela_atendimento.pega_data_inicio(), "%d/%m/%Y"
-        )
-        data_fim = datetime.strptime(
-            self.__tela_atendimento.pega_data_fim(), "%d/%m/%Y"
-        )
+        try:
+
+            data_inicio = datetime.strptime(
+                self.__tela_atendimento.pega_data_inicio(), "%d/%m/%Y"
+            )
+            data_fim = datetime.strptime(
+                self.__tela_atendimento.pega_data_fim(), "%d/%m/%Y"
+            )
+        except ValueError:
+            self.__tela_atendimento.mostra_mensagem("Datas inválidas. Tente novamente.")
+            return []
         return [
             atendimento
             for atendimento in self.__atendimentos.values()
@@ -343,6 +432,9 @@ class ControladorAtendimento:
         end_index = start_index + page_size
         atendimentos_page = atendimentos_list[start_index:end_index]
 
+        if not atendimentos_page:
+            self.__tela_atendimento.mostra_mensagem("Nenhum atendimento encontrado.")
+            return
         for atendimento in atendimentos_page:
             total_pages = (
                 (total_atendimentos + page_size - 1) // page_size
@@ -354,6 +446,10 @@ class ControladorAtendimento:
             self.__tela_atendimento.mostra_mensagem(
                 f"Página {page}/{total_pages} - Mostrando {showing_start}-{showing_end} de {total_atendimentos}"
             )
+            procedimentos_list_str = [
+                str(p) for p in atendimento.procedimentos.values()
+            ]
+            pagamentos_list_str = [str(p) for p in atendimento.pagamentos]
             self.__tela_atendimento.mostra_atendimento(
                 atendimento.id,
                 atendimento.ts_inicio,
@@ -363,8 +459,8 @@ class ControladorAtendimento:
                 atendimento.paciente.nome,
                 atendimento.profissional.nome,
                 atendimento.clinica.nome,
-                atendimento.procedimentos,
-                atendimento.pagamentos,
+                procedimentos_list_str,
+                pagamentos_list_str,
                 atendimento.valor_total,
                 atendimento.valor_pago,
             )

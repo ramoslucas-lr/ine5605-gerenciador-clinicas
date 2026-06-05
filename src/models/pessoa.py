@@ -98,3 +98,11 @@ class Pessoa:
         """Remove um papel da pessoa."""
         if papel in self.__papeis:
             self.__papeis.remove(papel)
+    
+    def tem_papel_paciente(self) -> bool:
+        """Verifica se a pessoa tem o papel de paciente."""
+        return any(isinstance(papel, PapelPaciente) for papel in self.__papeis)
+    
+    def tem_papel_profissional(self) -> bool:
+        """Verifica se a pessoa tem o papel de profissional."""
+        return any(isinstance(papel, PapelProfissional) for papel in self.__papeis)
