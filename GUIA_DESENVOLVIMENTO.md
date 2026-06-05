@@ -1,9 +1,9 @@
 # 👑 GUIA DE DESENVOLVIMENTO: DO CAMARIM À PASSARELA! 💖
 
 Seja muito bem-vinda, **Miss Gay Ribeirão Preto**! 💅✨
-*(E lembre-se: o sistema se chama **Sis**Clinicas, porque se fosse **Cis**Clinicas não teria tanto brilho! 🦄)*
 
-Este é o seu guia definitivo para programar no **SisClinicas**. Aqui você vai aprender a preparar o seu ambiente, entender a estrutura do projeto e seguir o passo a passo para construir as funcionalidades que faltam com muito glamour, organização e zero desespero!
+
+Este é o seu guia definitivo para programar no **SisClinicas** *(**Sis**Clinicas, porque se fosse **Cis**Clinicas não teria tanto brilho! 🦄)*. Aqui você vai aprender a preparar o seu ambiente, entender a estrutura do projeto e seguir o passo a passo para construir as funcionalidades que faltam com muito glamour, organização e zero desespero!
 
 ---
 
