@@ -1,6 +1,11 @@
 from datetime import datetime, time
-from decimal import Decimal, InvalidOperation
-
+from decimal import Decimal
+from models.pagamento import (
+    Pagamento,
+    MetodoPix,
+    MetodoCartao,
+    MetodoDinheiro
+)
 from models.atendimento import Atendimento
 from models.clinica import Clinica
 from models.tipo_atendimento import TipoAtendimento
@@ -78,6 +83,8 @@ class ControladorAtendimento:
                     dados_atendimento["ts_fim"], "%d/%m/%Y %H:%M"
                 )
                 valor = Decimal(dados_atendimento["valor"])
+                    
+                    
             except (ValueError, InvalidOperation):
                 self.__tela_atendimento.mostra_mensagem(
                     "Dados de data/hora ou valor inválidos. Atendimento não incluído."
@@ -486,18 +493,113 @@ class ControladorAtendimento:
                 else:
                     break
 
+    def registrar_pagamento(self):
+        try:
+            id_atendimento = int(
+                input("ID do atendimento: ")
+            )
+
+            atendimento = self.buscar_atendimento(
+                id_atendimento
+            )
+
+            if atendimento is None:
+                self.__tela_atendimento.mostra_mensagem(
+                    "Atendimento não encontrado."
+                )
+                return
+
+            id_pagamento = int(
+                input("ID do pagamento: ")
+            )
+
+            valor = Decimal(
+                input("Valor: ")
+            )
+
+            data = datetime.strptime(
+                input("Data (dd/mm/aaaa): "),
+                "%d/%m/%Y"
+            )
+
+            metodo = int(
+                input(
+                    "1 - Pix\n"
+                    "2 - Cartão\n"
+                    "3 - Dinheiro\n"
+                    "Escolha: "
+                )
+            )
+
+            if metodo == 1:
+                chave = input("Chave PIX: ")
+                tipo_chave = input(
+                    "Tipo da chave: "
+                )
+
+                metodo_pagamento = MetodoPix(
+                    chave,
+                    tipo_chave
+                )
+
+            elif metodo == 2:
+                numero = input(
+                    "Número do cartão: "
+                )
+
+                bandeira = input(
+                    "Bandeira: "
+                )
+
+                metodo_pagamento = MetodoCartao(
+                    numero,
+                    bandeira
+                )
+
+            elif metodo == 3:
+                metodo_pagamento = MetodoDinheiro()
+
+            else:
+                self.__tela_atendimento.mostra_mensagem(
+                    "Método inválido."
+                )
+                return
+
+            pagamento = Pagamento(
+                id_pagamento,
+                data,
+                valor,
+                atendimento.paciente,
+                atendimento,
+                metodo_pagamento
+            )
+
+            atendimento.adiciona_pagamento(
+                pagamento
+            )
+
+            self.__tela_atendimento.mostra_mensagem(
+                "Pagamento registrado com sucesso."
+            )
+
+        except Exception as erro:
+            self.__tela_atendimento.mostra_mensagem(
+                f"Erro ao registrar pagamento: {erro}"
+            )
+
     def retorna_tela(self):
         self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
         opcoes = {
-            1: self.mostrar_atendimento,
-            2: self.excluir_atendimento,
-            3: self.listar_atendimentos,
-            4: self.incluir_atendimento,
-            5: self.alterar_atendimento,
-            6: self.abre_menu_procedimentos,
-            0: self.retorna_tela,
+             1: self.mostrar_atendimento,
+             2: self.excluir_atendimento,
+             3: self.listar_atendimentos,
+             4: self.incluir_atendimento,
+             5: self.alterar_atendimento,
+             6: self.abre_menu_procedimentos,
+             7: self.registrar_pagamento,
+             0: self.retorna_tela,
         }
 
         while True:
