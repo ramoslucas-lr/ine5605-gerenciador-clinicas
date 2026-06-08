@@ -17,15 +17,17 @@ class TelaTipoAtendimento:
                 id_tipo = int(input("ID: "))
                 nome = input("Nome: ").strip()
                 codigo = input("Código: ").strip()
+                descricao = input("Descrição: ").strip()
 
-                if nome == "" or codigo == "":
+                if nome == "" or codigo == "" or descricao == "":
                     print("❌ Nenhum campo pode ficar vazio.")
                     continue
 
                 return {
                     "id": id_tipo,
                     "nome": nome,
-                    "codigo": codigo
+                    "codigo": codigo,
+                    "descricao": descricao
                 }
 
             except ValueError:
@@ -46,3 +48,4 @@ class TelaTipoAtendimento:
             print(f"ID: {tipo.id}")
             print(f"Nome: {tipo.nome}")
             print(f"Código: {tipo.codigo}")
+            print(f"Descrição: {tipo.descricao}")

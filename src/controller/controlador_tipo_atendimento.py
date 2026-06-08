@@ -28,7 +28,8 @@ class ControladorTipoAtendimento:
             tipo = TipoAtendimento(
                 id_tipo,
                 dados["nome"],
-                dados["codigo"]
+                dados["codigo"],
+                dados["descricao"]
             )
 
             self.__tipos_atendimento[id_tipo] = tipo

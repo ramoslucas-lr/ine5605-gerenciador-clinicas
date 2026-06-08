@@ -1,4 +1,4 @@
-from metodo_pagamento import MetodoPagamento
+from models.metodo_pagamento import MetodoPagamento
 
 
 class MetodoPix(MetodoPagamento):

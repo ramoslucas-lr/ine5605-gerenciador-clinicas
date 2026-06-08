@@ -1,4 +1,5 @@
 from decimal import InvalidOperation
+from datetime import datetime
 
 from view.tela_clinica import TelaClinica
 from models.clinica import Clinica
@@ -26,11 +27,16 @@ class ControladorClinica:
                 )
                 return
 
+            hora_abertura = datetime.strptime(dados["hora_abertura"], "%H:%M").time()
+            hora_fechamento = datetime.strptime(dados["hora_fechamento"], "%H:%M").time()
+
             clinica = Clinica(
                 id_clinica,
                 dados["nome"],
                 dados["localizacao"],
-                dados["descricao"]
+                dados["descricao"],
+                hora_abertura,
+                hora_fechamento
             )
 
             self.__clinicas[id_clinica] = clinica

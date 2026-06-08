@@ -1,11 +1,9 @@
 from datetime import datetime, time
-from decimal import Decimal
-from models.pagamento import (
-    Pagamento,
-    MetodoPix,
-    MetodoCartao,
-    MetodoDinheiro
-)
+from decimal import Decimal, InvalidOperation
+from models.pagamento import Pagamento
+from models.metodo_pix import MetodoPix
+from models.metodo_cartao import MetodoCartao
+from models.metodo_dinheiro import MetodoDinheiro
 from models.atendimento import Atendimento
 from models.clinica import Clinica
 from models.tipo_atendimento import TipoAtendimento
@@ -51,14 +49,8 @@ class ControladorAtendimento:
                 )
                 return
 
-            # TODO: clinica = self.__controlador_sistema.controlador_clinica.buscar_clinica(dados_atendimento["id_clinica"])
-            clinica = Clinica(
-                1,
-                "Clinica Exemplo",
-                "Endereço Exemplo",
-                "Descrocap Exemplo",
-                hora_abertura=time(8, 0),
-                hora_fechamento=time(18, 0),
+            clinica = self.__controlador_sistema.controlador_clinica.buscar_clinica(
+                int(dados_atendimento["id_clinica"])
             )
 
             if clinica is None:
@@ -66,8 +58,9 @@ class ControladorAtendimento:
                     "Clínica não encontrada. Atendimento não incluído."
                 )
                 return
-            # TODO: tipo_atendimento = self.__controlador_sistema.controlador_tipo_atendimento.buscar_tipo_atendimento(dados_atendimento["id_tipo_atendimento"])
-            tipo_atendimento = TipoAtendimento(1, "Exame", "Raio-X")
+            tipo_atendimento = self.__controlador_sistema.controlador_tipo_atendimento.buscar_tipo_atendimento(
+                int(dados_atendimento["tipo_atendimento"])
+            )
 
             if tipo_atendimento is None:
                 self.__tela_atendimento.mostra_mensagem(
@@ -103,7 +96,7 @@ class ControladorAtendimento:
             )
 
             self.__atendimentos[atendimento.id] = atendimento
-            # TODO: self.__controlador_sistema.controlador_clinica.adicionar_atendimento_clinica(clinica.id, atendimento)
+            clinica.adicionar_atendimento(atendimento)
 
             self.__tela_atendimento.mostra_mensagem("Atendimento incluído com sucesso.")
 
@@ -159,12 +152,32 @@ class ControladorAtendimento:
                     )
                     return
 
+                clinica = self.__controlador_sistema.controlador_clinica.buscar_clinica(
+                    int(dados_atendimento["id_clinica"])
+                )
+                if clinica is None:
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Clínica não encontrada. Alteração não realizada."
+                    )
+                    return
+
+                tipo_atendimento = self.__controlador_sistema.controlador_tipo_atendimento.buscar_tipo_atendimento(
+                    int(dados_atendimento["tipo_atendimento"])
+                )
+                if tipo_atendimento is None:
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Tipo de atendimento não encontrado. Alteração não realizada."
+                    )
+                    return
+
                 try:
                     atendimento.ts_inicio = ts_inicio
                     atendimento.ts_fim = ts_fim
                     atendimento.valor = valor
                     atendimento.paciente = paciente
                     atendimento.profissional = profissional
+                    atendimento.clinica = clinica
+                    atendimento.tipo_atendimento = tipo_atendimento
                     self.__tela_atendimento.mostra_mensagem(
                         "Atendimento alterado com sucesso."
                     )
