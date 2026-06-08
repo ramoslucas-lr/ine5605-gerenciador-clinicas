@@ -25,6 +25,11 @@ class TelaRelatorio:
         for atendimento in atendimentos:
             print(f"🔹 {atendimento}")
 
+    def mostra_clinicas(self, clinicas):
+        print("\n📋 ==== RESULTADO DAS CLÍNICAS ====")
+        for clinica in clinicas:
+            print(f"🏥 {clinica}")
+
     def mostra_procedimentos(self, procedimentos):
         print("\n📋 ==== RESULTADO DOS PROCEDIMENTOS ====")
         for procedimento in procedimentos:

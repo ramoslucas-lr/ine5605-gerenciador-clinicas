@@ -1,8 +1,9 @@
 class TipoAtendimento:
 
-    def __init__(self, id: int, nome: str, descricao: str):
+    def __init__(self, id: int, nome: str, codigo: str, descricao: str):
         self.__id = id
         self.__nome = nome
+        self.__codigo = codigo
         self.__descricao = descricao
 
     @property
@@ -20,6 +21,14 @@ class TipoAtendimento:
     @nome.setter
     def nome(self, nome):
         self.__nome = nome
+
+    @property
+    def codigo(self):
+        return self.__codigo
+
+    @codigo.setter
+    def codigo(self, codigo):
+        self.__codigo = codigo
 
     @property
     def descricao(self):

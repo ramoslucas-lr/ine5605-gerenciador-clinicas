@@ -18,8 +18,10 @@ class TelaClinica:
                 nome = input("Nome da clínica: ").strip()
                 localizacao = input("Localização: ").strip()
                 descricao = input("Descrição: ").strip()
+                hora_abertura = input("Hora de abertura (HH:MM): ").strip()
+                hora_fechamento = input("Hora de fechamento (HH:MM): ").strip()
 
-                if nome == "" or localizacao == "" or descricao == "":
+                if nome == "" or localizacao == "" or descricao == "" or hora_abertura == "" or hora_fechamento == "":
                     print("❌ Nenhum campo pode ficar vazio.")
                     continue
 
@@ -27,7 +29,9 @@ class TelaClinica:
                     "id": id_clinica,
                     "nome": nome,
                     "localizacao": localizacao,
-                    "descricao": descricao
+                    "descricao": descricao,
+                    "hora_abertura": hora_abertura,
+                    "hora_fechamento": hora_fechamento
                 }
 
             except ValueError:
@@ -49,3 +53,4 @@ class TelaClinica:
             print(f"Nome: {clinica.nome}")
             print(f"Localização: {clinica.localizacao}")
             print(f"Descrição: {clinica.descricao}")
+            print(f"Horário de Funcionamento: {clinica.hora_abertura.strftime('%H:%M')} - {clinica.hora_fechamento.strftime('%H:%M')}")
