@@ -5,6 +5,8 @@ class TelaSistema:
         print("1 - Cadastro de Pessoas (Pacientes / Médicos)")
         print("2 - Gerenciar Atendimentos (Consultas / Procedimentos)")
         print("3 - Relatórios e Estatísticas")
+        print("4 - Cadastro de Clinicas")
+        print("5 - Cadastro de Tipos de Atendimento")
         print("0 - Finalizar o Sistema")
         try:
             op = int(input("👉 Escolha a opção: "))

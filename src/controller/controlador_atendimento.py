@@ -1,6 +1,9 @@
 from datetime import datetime, time
 from decimal import Decimal, InvalidOperation
-
+from models.pagamento import Pagamento
+from models.metodo_pix import MetodoPix
+from models.metodo_cartao import MetodoCartao
+from models.metodo_dinheiro import MetodoDinheiro
 from models.atendimento import Atendimento
 from models.clinica import Clinica
 from models.tipo_atendimento import TipoAtendimento
@@ -46,14 +49,8 @@ class ControladorAtendimento:
                 )
                 return
 
-            # TODO: clinica = self.__controlador_sistema.controlador_clinica.buscar_clinica(dados_atendimento["id_clinica"])
-            clinica = Clinica(
-                1,
-                "Clinica Exemplo",
-                "Endereço Exemplo",
-                "Descrocap Exemplo",
-                hora_abertura=time(8, 0),
-                hora_fechamento=time(18, 0),
+            clinica = self.__controlador_sistema.controlador_clinica.buscar_clinica(
+                int(dados_atendimento["id_clinica"])
             )
 
             if clinica is None:
@@ -61,8 +58,9 @@ class ControladorAtendimento:
                     "Clínica não encontrada. Atendimento não incluído."
                 )
                 return
-            # TODO: tipo_atendimento = self.__controlador_sistema.controlador_tipo_atendimento.buscar_tipo_atendimento(dados_atendimento["id_tipo_atendimento"])
-            tipo_atendimento = TipoAtendimento(1, "Exame", "Raio-X")
+            tipo_atendimento = self.__controlador_sistema.controlador_tipo_atendimento.buscar_tipo_atendimento(
+                int(dados_atendimento["tipo_atendimento"])
+            )
 
             if tipo_atendimento is None:
                 self.__tela_atendimento.mostra_mensagem(
@@ -78,6 +76,8 @@ class ControladorAtendimento:
                     dados_atendimento["ts_fim"], "%d/%m/%Y %H:%M"
                 )
                 valor = Decimal(dados_atendimento["valor"])
+                    
+                    
             except (ValueError, InvalidOperation):
                 self.__tela_atendimento.mostra_mensagem(
                     "Dados de data/hora ou valor inválidos. Atendimento não incluído."
@@ -96,7 +96,7 @@ class ControladorAtendimento:
             )
 
             self.__atendimentos[atendimento.id] = atendimento
-            # TODO: self.__controlador_sistema.controlador_clinica.adicionar_atendimento_clinica(clinica.id, atendimento)
+            clinica.adicionar_atendimento(atendimento)
 
             self.__tela_atendimento.mostra_mensagem("Atendimento incluído com sucesso.")
 
@@ -152,12 +152,32 @@ class ControladorAtendimento:
                     )
                     return
 
+                clinica = self.__controlador_sistema.controlador_clinica.buscar_clinica(
+                    int(dados_atendimento["id_clinica"])
+                )
+                if clinica is None:
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Clínica não encontrada. Alteração não realizada."
+                    )
+                    return
+
+                tipo_atendimento = self.__controlador_sistema.controlador_tipo_atendimento.buscar_tipo_atendimento(
+                    int(dados_atendimento["tipo_atendimento"])
+                )
+                if tipo_atendimento is None:
+                    self.__tela_atendimento.mostra_mensagem(
+                        "Tipo de atendimento não encontrado. Alteração não realizada."
+                    )
+                    return
+
                 try:
                     atendimento.ts_inicio = ts_inicio
                     atendimento.ts_fim = ts_fim
                     atendimento.valor = valor
                     atendimento.paciente = paciente
                     atendimento.profissional = profissional
+                    atendimento.clinica = clinica
+                    atendimento.tipo_atendimento = tipo_atendimento
                     self.__tela_atendimento.mostra_mensagem(
                         "Atendimento alterado com sucesso."
                     )
@@ -486,18 +506,113 @@ class ControladorAtendimento:
                 else:
                     break
 
+    def registrar_pagamento(self):
+        try:
+            id_atendimento = int(
+                input("ID do atendimento: ")
+            )
+
+            atendimento = self.buscar_atendimento(
+                id_atendimento
+            )
+
+            if atendimento is None:
+                self.__tela_atendimento.mostra_mensagem(
+                    "Atendimento não encontrado."
+                )
+                return
+
+            id_pagamento = int(
+                input("ID do pagamento: ")
+            )
+
+            valor = Decimal(
+                input("Valor: ")
+            )
+
+            data = datetime.strptime(
+                input("Data (dd/mm/aaaa): "),
+                "%d/%m/%Y"
+            )
+
+            metodo = int(
+                input(
+                    "1 - Pix\n"
+                    "2 - Cartão\n"
+                    "3 - Dinheiro\n"
+                    "Escolha: "
+                )
+            )
+
+            if metodo == 1:
+                chave = input("Chave PIX: ")
+                tipo_chave = input(
+                    "Tipo da chave: "
+                )
+
+                metodo_pagamento = MetodoPix(
+                    chave,
+                    tipo_chave
+                )
+
+            elif metodo == 2:
+                numero = input(
+                    "Número do cartão: "
+                )
+
+                bandeira = input(
+                    "Bandeira: "
+                )
+
+                metodo_pagamento = MetodoCartao(
+                    numero,
+                    bandeira
+                )
+
+            elif metodo == 3:
+                metodo_pagamento = MetodoDinheiro()
+
+            else:
+                self.__tela_atendimento.mostra_mensagem(
+                    "Método inválido."
+                )
+                return
+
+            pagamento = Pagamento(
+                id_pagamento,
+                data,
+                valor,
+                atendimento.paciente,
+                atendimento,
+                metodo_pagamento
+            )
+
+            atendimento.adiciona_pagamento(
+                pagamento
+            )
+
+            self.__tela_atendimento.mostra_mensagem(
+                "Pagamento registrado com sucesso."
+            )
+
+        except Exception as erro:
+            self.__tela_atendimento.mostra_mensagem(
+                f"Erro ao registrar pagamento: {erro}"
+            )
+
     def retorna_tela(self):
         self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
         opcoes = {
-            1: self.mostrar_atendimento,
-            2: self.excluir_atendimento,
-            3: self.listar_atendimentos,
-            4: self.incluir_atendimento,
-            5: self.alterar_atendimento,
-            6: self.abre_menu_procedimentos,
-            0: self.retorna_tela,
+             1: self.mostrar_atendimento,
+             2: self.excluir_atendimento,
+             3: self.listar_atendimentos,
+             4: self.incluir_atendimento,
+             5: self.alterar_atendimento,
+             6: self.abre_menu_procedimentos,
+             7: self.registrar_pagamento,
+             0: self.retorna_tela,
         }
 
         while True:
