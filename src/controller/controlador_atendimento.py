@@ -1,5 +1,5 @@
 from datetime import datetime, time
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from models.pagamento import Pagamento
 from models.metodo_pix import MetodoPix
 from models.metodo_cartao import MetodoCartao
