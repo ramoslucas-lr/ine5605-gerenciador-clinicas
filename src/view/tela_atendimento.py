@@ -79,8 +79,6 @@ class TelaAtendimento:
         print("2 - Alterar Procedimento Existente")
         print("3 - Excluir Procedimento")
         print("4 - Listar Procedimentos do Atendimento")
-        print("5 - Gerenciar Procedimentos de um Atendimento")
-        print("6 - Registrar Pagamento")
         print("0 - Voltar ao Menu Anterior")
 
         try:
@@ -199,6 +197,7 @@ class TelaAtendimento:
         print("4 - Incluir Novo Atendimento")
         print("5 - Alterar Atendimento Existente")
         print("6 - Gerenciar Procedimentos de um Atendimento")
+        print("7 - Registrar Pagamento")
         print("0 - Voltar ao Menu Principal")
 
         try:

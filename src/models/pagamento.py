@@ -95,3 +95,7 @@ class Pagamento:
     @property
     def valor_restante(self) -> Decimal:
         return self.__valor_restante
+
+    def __str__(self):
+        metodo = self.metodo_pagamento.__class__.__name__.replace('Metodo', '')
+        return f"Pagamento de R$ {self.valor} em {self.data.strftime('%d/%m/%Y')} (Via {metodo})"

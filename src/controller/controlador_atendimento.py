@@ -522,10 +522,6 @@ class ControladorAtendimento:
                 )
                 return
 
-            id_pagamento = int(
-                input("ID do pagamento: ")
-            )
-
             valor = Decimal(
                 input("Valor: ")
             )
@@ -579,7 +575,6 @@ class ControladorAtendimento:
                 return
 
             pagamento = Pagamento(
-                id_pagamento,
                 data,
                 valor,
                 atendimento.paciente,
