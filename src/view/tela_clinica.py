@@ -10,7 +10,6 @@ class TelaClinica:
         button, values = self.__window.Read()
 
         opcao = 0
-        print(values)
         if values[1]:
             opcao = 1
         elif values[2]:
