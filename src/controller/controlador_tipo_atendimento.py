@@ -2,16 +2,18 @@ from decimal import InvalidOperation
 
 from view.tela_tipo_atendimento import TelaTipoAtendimento
 from models.tipo_atendimento import TipoAtendimento
+from dao.tipo_atendimento_dao import TipoAtendimentoDAO
 
 
 class ControladorTipoAtendimento:
     def __init__(self, controlador_sistema):
-        self.__tipos_atendimento = {}
+        self.__tipo_atendimento_dao = TipoAtendimentoDAO()
+
         self.__controlador_sistema = controlador_sistema
         self.__tela = TelaTipoAtendimento()
 
     def buscar_tipo_atendimento(self, id_tipo: int):
-        return self.__tipos_atendimento.get(id_tipo)
+        return self.__tipo_atendimento_dao.get(id_tipo)
 
     def incluir_tipo_atendimento(self):
         try:
@@ -32,7 +34,7 @@ class ControladorTipoAtendimento:
                 dados["descricao"]
             )
 
-            self.__tipos_atendimento[id_tipo] = tipo
+            self.__tipo_atendimento_dao.add(tipo)
 
             self.__tela.mostra_mensagem(
                 "Tipo de atendimento cadastrado com sucesso!"
@@ -45,7 +47,7 @@ class ControladorTipoAtendimento:
 
     def listar_tipos_atendimento(self):
         self.__tela.listar_tipos_atendimento(
-            list(self.__tipos_atendimento.values())
+            list(self.__tipo_atendimento_dao.get_all())
         )
 
     def retorna_tela(self):

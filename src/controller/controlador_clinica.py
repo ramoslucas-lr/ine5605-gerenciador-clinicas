@@ -3,17 +3,18 @@ from datetime import datetime
 
 from view.tela_clinica import TelaClinica
 from models.clinica import Clinica
+from dao.clinica_dao import ClinicaDAO
 
 
 class ControladorClinica:
 
     def __init__(self, controlador_sistema):
-        self.__clinicas = {}
+        self.__clinica_dao = ClinicaDAO()
         self.__controlador_sistema = controlador_sistema
         self.__tela = TelaClinica()
 
     def buscar_clinica(self, id_clinica):
-        return self.__clinicas.get(id_clinica)
+        return self.__clinica_dao.get(id_clinica)
 
     def incluir_clinica(self):
         try:
@@ -21,7 +22,7 @@ class ControladorClinica:
 
             id_clinica = int(dados["id"])
 
-            if id_clinica in self.__clinicas:
+            if self.__clinica_dao.get(id_clinica):
                 self.__tela.mostra_mensagem(
                     "Clínica já cadastrada."
                 )
@@ -39,7 +40,7 @@ class ControladorClinica:
                 hora_fechamento
             )
 
-            self.__clinicas[id_clinica] = clinica
+            self.__clinica_dao.add(clinica)
 
             self.__tela.mostra_mensagem(
                 "Clínica cadastrada com sucesso."
@@ -52,7 +53,7 @@ class ControladorClinica:
 
     def listar_clinicas(self):
         self.__tela.listar_clinicas(
-            self.__clinicas.values()
+            self.__clinica_dao.get_all()
         )
 
     def retorna_tela(self):

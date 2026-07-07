@@ -5,16 +5,17 @@ from models.pessoa import Pessoa
 from models.papel_paciente import PapelPaciente
 from models.papel_profissional import PapelProfissional
 from models.tipo_papel import TipoPapel
+from dao.pessoa_dao import PessoaDAO
 
 
 class ControladorPessoa:
     def __init__(self, controlador_sistema):
-        self.__pessoas = {}
+        self.__pessoa_dao = PessoaDAO()
         self.__controlador_sistema = controlador_sistema
         self.__tela_pessoa = TelaPessoa()
 
     def buscar_pessoa(self, cpf):
-        return self.__pessoas.get(cpf)
+        return self.__pessoa_dao.get(cpf)
 
     def mostrar_pessoa(self):
         cpf = self.__tela_pessoa.seleciona_pessoa()
@@ -63,7 +64,7 @@ class ControladorPessoa:
                     dados_pessoa["cpf"],
                     data_nascimento,
                 )
-                self.__pessoas[pessoa.cpf] = pessoa
+                self.__pessoa_dao.add(pessoa)
                 self.__tela_pessoa.mostra_mensagem("Pessoa incluída com sucesso.")
 
                 while True:
@@ -128,9 +129,7 @@ class ControladorPessoa:
                 if alterar_papeis:
                     self.abre_menu_papeis(pessoa)
 
-                self.__pessoas[pessoa.cpf] = pessoa
-                if cpf != pessoa.cpf:
-                    del self.__pessoas[cpf]
+                self.__pessoa_dao.update(pessoa)
 
                 self.__tela_pessoa.mostra_mensagem("Pessoa alterada com sucesso.")
         else:
@@ -143,14 +142,14 @@ class ControladorPessoa:
         if pessoa is not None:
             confirma = self.__tela_pessoa.confirma_exclusao(pessoa.nome)
             if confirma:
-                del self.__pessoas[cpf]
+                self.__pessoa_dao.remove(cpf)
             self.__tela_pessoa.mostra_mensagem("Pessoa excluída com sucesso.")
         else:
             self.__tela_pessoa.mostra_mensagem("Pessoa não encontrada.")
 
     def listar_pessoas(self, page=1):
         page_size = 5
-        pessoas_list = list(self.__pessoas.values())
+        pessoas_list = list(self.__pessoa_dao.get_all())
         total_pessoas = len(pessoas_list)
         start_index = (page - 1) * page_size
         end_index = start_index + page_size
