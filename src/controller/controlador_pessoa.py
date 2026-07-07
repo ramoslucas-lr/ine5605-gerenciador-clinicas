@@ -72,9 +72,6 @@ class ControladorPessoa:
 
                     if tipo_papel == TipoPapel.PACIENTE.value:
                         pessoa.adicionar_papel_paciente()
-                        self.__tela_pessoa.mostra_mensagem(
-                            "Papel de paciente adicionado."
-                        )
                         break
                     elif tipo_papel == TipoPapel.PROFISSIONAL.value:
                         reg_profissional, especialidade = (
@@ -82,9 +79,6 @@ class ControladorPessoa:
                         )
                         pessoa.adicionar_papel_profissional(
                             reg_profissional, especialidade
-                        )
-                        self.__tela_pessoa.mostra_mensagem(
-                            "Papel de profissional da saúde adicionado."
                         )
                         break
                     else:
@@ -147,64 +141,32 @@ class ControladorPessoa:
         else:
             self.__tela_pessoa.mostra_mensagem("Pessoa não encontrada.")
 
-    def listar_pessoas(self, page=1):
-        page_size = 5
+    def listar_pessoas(self):
         pessoas_list = list(self.__pessoa_dao.get_all())
-        total_pessoas = len(pessoas_list)
-        start_index = (page - 1) * page_size
-        end_index = start_index + page_size
-        pessoas_paginadas = pessoas_list[start_index:end_index]
+        
+        if not pessoas_list:
+            self.__tela_pessoa.mostra_mensagem("Nenhuma pessoa cadastrada.")
+            return
 
-        for pessoa in pessoas_paginadas:
-            total_pages = (
-                (total_pessoas + page_size - 1) // page_size if page_size > 0 else 1
-            )
-            showing_start = start_index + 1 if total_pessoas > 0 else 0
-            showing_end = min(end_index, total_pessoas)
-            self.__tela_pessoa.mostra_mensagem(
-                f"Página {page}/{total_pages} - Mostrando {showing_start}-{showing_end} de {total_pessoas}"
-            )
+        dados_pessoas = []
+        for pessoa in pessoas_list:
             data_nascimento_str = pessoa.data_nascimento.strftime("%d/%m/%Y")
-            papeis_list = []
+            papeis_str = []
             for papel in pessoa.papeis:
                 if isinstance(papel, PapelPaciente):
-                    papeis_list.append({"tipo": "Paciente"})
+                    papeis_str.append("Paciente")
                 elif isinstance(papel, PapelProfissional):
-                    papeis_list.append(
-                        {
-                            "tipo": "Profissional",
-                            "reg_profissional": papel.reg_profissional,
-                            "especialidade": papel.especialidade,
-                        }
-                    )
-            self.__tela_pessoa.mostra_pessoa(
-                pessoa.nome,
-                pessoa.celular,
-                pessoa.cpf,
-                data_nascimento_str,
-                papeis_list,
-            )
-            self.__tela_pessoa.mostra_mensagem("-" * 20)
+                    papeis_str.append(f"Profissional ({papel.especialidade})")
+            
+            dados_pessoas.append({
+                "nome": pessoa.nome,
+                "cpf": pessoa.cpf,
+                "celular": pessoa.celular,
+                "nascimento": data_nascimento_str,
+                "papeis": ", ".join(papeis_str)
+            })
 
-        if total_pessoas // page_size > 1:
-            while True:
-                resposta = self.__tela_pessoa.mostra_menu_pagina()
-                if resposta.lower() == "n":
-                    if end_index < total_pessoas:
-                        self.listar_pessoas(page + 1)
-                    else:
-                        self.__tela_pessoa.mostra_mensagem(
-                            "Você já está na última página."
-                        )
-                elif resposta.lower() == "p":
-                    if start_index > 0:
-                        self.listar_pessoas(page - 1)
-                    else:
-                        self.__tela_pessoa.mostra_mensagem(
-                            "Você já está na primeira página."
-                        )
-                else:
-                    break
+        self.__tela_pessoa.listar_pessoas(dados_pessoas)
 
     def retorna_tela(self):
         self.__controlador_sistema.abre_tela()
