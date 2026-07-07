@@ -19,6 +19,9 @@ class ControladorTipoAtendimento:
         try:
             dados = self.__tela.pega_dados_tipo_atendimento()
 
+            if dados is None:
+                return
+
             id_tipo = int(dados["id"])
 
             if self.buscar_tipo_atendimento(id_tipo) is not None:
