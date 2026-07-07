@@ -20,10 +20,13 @@ class ControladorClinica:
         try:
             dados = self.__tela.pega_dados_clinica()
 
+            if dados is None:
+                return
+
             id_clinica = int(dados["id"])
 
             if self.__clinica_dao.get(id_clinica):
-                self.__tela.mostra_mensagem(
+                self.__tela.mensagem(
                     "Clínica já cadastrada."
                 )
                 return
@@ -42,12 +45,12 @@ class ControladorClinica:
 
             self.__clinica_dao.add(clinica)
 
-            self.__tela.mostra_mensagem(
+            self.__tela.mensagem(
                 "Clínica cadastrada com sucesso."
             )
 
         except (ValueError, InvalidOperation):
-            self.__tela.mostra_mensagem(
+            self.__tela.mensagem(
                 "Dados inválidos."
             )
 
@@ -75,6 +78,6 @@ class ControladorClinica:
                 if opcao == 0:
                     break
             else:
-                self.__tela.mostra_mensagem(
+                self.__tela.mensagem(
                     "Opção inválida."
                 )
