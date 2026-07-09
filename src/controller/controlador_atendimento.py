@@ -597,8 +597,7 @@ class ControladorAtendimento:
 
             atendimento.adiciona_pagamento(
                 pagamento
-            )
-
+            )  
             self.__atendimento_dao.add(atendimento)
             self.__tela_atendimento.mostra_mensagem(
                 "Pagamento registrado com sucesso."

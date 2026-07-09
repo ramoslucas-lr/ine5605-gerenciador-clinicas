@@ -8,5 +8,7 @@ class ProcedimentoDAO(DAO):
         super().__init__("procedimentos.pkl")
 
     def add(self, procedimento):
+
+        
         if isinstance(procedimento, Procedimento):
             super().add(procedimento.id, procedimento)

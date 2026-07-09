@@ -42,7 +42,7 @@ class DAO(ABC):
         
     def remove(self, key):
         try:
-            self.__cache.pop(key)
+            del self._cache[key]
             self.__dump()
         except KeyError:
             raise KeyError(f"Chave {key} não encontrada para remover")

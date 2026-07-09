@@ -4,6 +4,7 @@ from controller.controlador_atendimento import ControladorAtendimento
 from controller.controlador_relatorio import ControladorRelatorio
 from view.tela_sistema import TelaSistema
 from controller.controlador_pessoa import ControladorPessoa
+from controller.controlador_procedimento import ControladorProcedimento
 
 
 class ControladorSistema:
@@ -11,6 +12,7 @@ class ControladorSistema:
         self.__tela_sistema = TelaSistema()
         self.__controlador_pessoa = ControladorPessoa(self)
         self.__controlador_atendimento = ControladorAtendimento(self)
+        self.__controlador_procedimento = ControladorProcedimento(self)
         self.__controlador_relatorio = ControladorRelatorio(self)
         self.__controlador_clinica = ControladorClinica(self)
         self.__controlador_tipo_atendimento = ControladorTipoAtendimento(self)
@@ -31,6 +33,10 @@ class ControladorSistema:
     @property
     def controlador_tipo_atendimento(self):
         return self.__controlador_tipo_atendimento
+    
+    @property
+    def controlador_procedimento(self):
+        return self.__controlador_procedimento
 
     def inicializa_sistema(self):
         self.abre_tela()

@@ -1,10 +1,13 @@
 from dao.procedimento_dao import ProcedimentoDAO
 from view.tela_procedimento import TelaProcedimento
+from decimal import Decimal
+from models.procedimento import Procedimento
 
 
 class ControladorProcedimento:
 
-    def __init__(self):
+    def __init__(self, controlador_sistema):
+        self.__controlador_sistema = controlador_sistema
         self.__dao = ProcedimentoDAO()
         self.__tela = TelaProcedimento()
 
