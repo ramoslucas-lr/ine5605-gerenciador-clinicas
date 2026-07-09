@@ -6,46 +6,46 @@ import os
 class DAO(ABC):
     @abstractmethod
     def __init__(self, datasource=""):
-        self.__datasource = datasource
-        self.__cache = (
+        self._datasource = datasource
+        self._cache = (
             {}
         )
         try:
-            self.__load()
+            self._load()
         except FileNotFoundError:
-            self.__dump()
+            self._dump()
         self._load()
 
-    def __dump(self):
-        pickle.dump(self.__cache, open(self.__datasource, "wb"))
+    def _dump(self):
+        pickle.dump(self._cache, open(self._datasource, "wb"))
     
-    def __load(self):
-        self.__cache = pickle.load(open(self.__datasource, "rb"))
+    def _load(self):
+        self._cache = pickle.load(open(self._datasource, "rb"))
     
     def add(self, key, obj):
-        self.__cache[key] = obj
-        self.__dump()
+        self._cache[key] = obj
+        self._dump()
     
     def update(self, key, obj):
         try:
-            if self.__cache[key] is not None:
-                self.__cache[key] = obj
-                self.__dump()
+            if self._cache[key] is not None:
+                self._cache[key] = obj
+                self._dump()
         except KeyError:
             raise KeyError(f"Chave {key} não encontrada para update")
 
     def get(self, key):
         try:
-            return self.__cache[key]
+            return self._cache[key]
         except KeyError:
             return None
         
     def remove(self, key):
         try:
             del self._cache[key]
-            self.__dump()
+            self._dump()
         except KeyError:
             raise KeyError(f"Chave {key} não encontrada para remover")
     
     def get_all(self):
-        return self.__cache.values()
+        return self._cache.values()
