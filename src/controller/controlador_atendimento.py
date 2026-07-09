@@ -7,41 +7,50 @@ from models.metodo_dinheiro import MetodoDinheiro
 from models.atendimento import Atendimento
 from models.clinica import Clinica
 from models.tipo_atendimento import TipoAtendimento
+from dao.atendimento_dao import AtendimentoDAO
 
 from view.tela_atendimento import TelaAtendimento
 
 
 class ControladorAtendimento:
     def __init__(self, controlador_sistema):
-        self.__atendimentos = {}
+        self.__atendimento_dao = AtendimentoDAO()
         self.__controlador_sistema = controlador_sistema
         self.__tela_atendimento = TelaAtendimento()
 
     @property
     def atendimentos(self):
-        return self.__atendimentos.values()
+        return self.__atendimento_dao.get_all()
 
     def buscar_atendimento(self, id):
-        return self.__atendimentos.get(id)
+        return self.__atendimento_dao.get(id)
 
     def incluir_atendimento(self):
         dados_atendimento = self.__tela_atendimento.pega_dados_atendimento()
 
-        if dados_atendimento is not None:
-            prox_id = max(self.__atendimentos.keys(), default=0) + 1
+        if dados_atendimento is None:
+            return
 
-            paciente = self.__controlador_sistema.controlador_pessoa.buscar_pessoa(
-                dados_atendimento["cpf_paciente"]
-            )
-            profissional = self.__controlador_sistema.controlador_pessoa.buscar_pessoa(
-                dados_atendimento["cpf_profissional"]
-            )
+        atendimentos = self.__atendimento_dao.get_all()
 
-            if paciente is None or not paciente.tem_papel_paciente():
-                self.__tela_atendimento.mostra_mensagem(
-                    "Paciente não encontrado ou sem papel de paciente. Atendimento não incluído."
-                )
-                return
+        if len(atendimentos) == 0:
+            prox_id = 1
+            
+        else:
+            prox_id = max(atendimento.id for atendimento in atendimentos) + 1
+
+        paciente = self.__controlador_sistema.controlador_pessoa.buscar_pessoa(
+            dados_atendimento["cpf_paciente"]
+        )
+        profissional = self.__controlador_sistema.controlador_pessoa.buscar_pessoa(
+            dados_atendimento["cpf_profissional"]
+        )
+
+        if paciente is None or not paciente.tem_papel_paciente():
+            self.__tela_atendimento.mostra_mensagem(
+                "Paciente não encontrado ou sem papel de paciente. Atendimento não incluído."
+            )
+            return
 
             if profissional is None or not profissional.tem_papel_profissional():
                 self.__tela_atendimento.mostra_mensagem(
@@ -95,7 +104,7 @@ class ControladorAtendimento:
                 clinica,
             )
 
-            self.__atendimentos[atendimento.id] = atendimento
+            self.__atendimento_dao.add(atendimento)
             clinica.adicionar_atendimento(atendimento)
 
             self.__tela_atendimento.mostra_mensagem("Atendimento incluído com sucesso.")
@@ -178,6 +187,7 @@ class ControladorAtendimento:
                     atendimento.profissional = profissional
                     atendimento.clinica = clinica
                     atendimento.tipo_atendimento = tipo_atendimento
+                    self.__atendimento_dao.add(atendimento)
                     self.__tela_atendimento.mostra_mensagem(
                         "Atendimento alterado com sucesso."
                     )
@@ -230,6 +240,7 @@ class ControladorAtendimento:
                         valor,
                         profissional,
                     )
+                    self.__atendimento_dao.add(atendimento)
                     self.__tela_atendimento.mostra_mensagem(
                         "Procedimento incluído com sucesso."
                     )
@@ -260,6 +271,7 @@ class ControladorAtendimento:
             ):
                 try:
                     atendimento.excluir_procedimento(id_procedimento)
+                    self.__atendimento_dao.add(atendimento)
                     self.__tela_atendimento.mostra_mensagem(
                         "Procedimento excluído com sucesso."
                     )
@@ -325,6 +337,7 @@ class ControladorAtendimento:
                             valor,
                             profissional,
                         )
+                        self.__atendimento_dao.add(atendimento)
                         self.__tela_atendimento.mostra_mensagem(
                             "Procedimento alterado com sucesso."
                         )
@@ -374,7 +387,7 @@ class ControladorAtendimento:
         atendimento = self.buscar_atendimento(id)
 
         if atendimento is not None:
-            del self.__atendimentos[id]
+            self.__atendimento_dao.remove(id)
             self.__tela_atendimento.mostra_mensagem("Atendimento excluído com sucesso.")
         else:
             self.__tela_atendimento.mostra_mensagem("Atendimento não encontrado.")
@@ -383,7 +396,7 @@ class ControladorAtendimento:
         cpf_paciente = self.__tela_atendimento.pega_cpf_paciente()
         return [
             atendimento
-            for atendimento in self.__atendimentos.values()
+            for atendimento in self.__atendimento_dao.get_all()
             if atendimento.paciente.cpf == cpf_paciente
         ]
 
@@ -391,7 +404,7 @@ class ControladorAtendimento:
         cpf_profissional = self.__tela_atendimento.pega_cpf_profissional()
         return [
             atendimento
-            for atendimento in self.__atendimentos.values()
+            for atendimento in self.__atendimento_dao.get_all()
             if atendimento.profissional.cpf == cpf_profissional
         ]
 
@@ -399,7 +412,7 @@ class ControladorAtendimento:
         id_clinica = self.__tela_atendimento.pega_id_clinica()
         return [
             atendimento
-            for atendimento in self.__atendimentos.values()
+            for atendimento in self.__atendimento_dao.get_all()
             if atendimento.clinica.id == id_clinica
         ]
 
@@ -417,7 +430,7 @@ class ControladorAtendimento:
             return []
         return [
             atendimento
-            for atendimento in self.__atendimentos.values()
+            for atendimento in self.__atendimento_dao.get_all()
             if atendimento.ts_inicio >= data_inicio and atendimento.ts_fim <= data_fim
         ]
 
@@ -434,14 +447,14 @@ class ControladorAtendimento:
         if funcao:
             atendimentos = funcao()
         elif opcao == 1:
-            atendimentos = self.__atendimentos.values()
+            atendimentos = self.__atendimento_dao.get_all()
         elif opcao == 0:
             return
         else:
             self.__tela_atendimento.mostra_mensagem(
                 "Opção inválida. Listando todos os atendimentos."
             )
-            atendimentos = self.__atendimentos.values()
+            atendimentos = self.__atendimento_dao.get_all()
         self.listar_atendimentos_paginados(atendimentos)
 
     def listar_atendimentos_paginados(self, atendimentos, page=1):
@@ -586,6 +599,7 @@ class ControladorAtendimento:
                 pagamento
             )
 
+            self.__atendimento_dao.add(atendimento)
             self.__tela_atendimento.mostra_mensagem(
                 "Pagamento registrado com sucesso."
             )

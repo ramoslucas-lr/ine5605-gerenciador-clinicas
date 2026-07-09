@@ -32,6 +32,11 @@ class TelaSistema:
     
     def close(self):
         self.__window.Close()
+
+    def open(self):
+        evento, valores = self.__window.read()
+        return evento, valores
+
     
     def init_components(self):
         sg.ChangeLookAndFeel("DarkTeal4")
