@@ -12,6 +12,8 @@ class TelaTipoAtendimento:
             [sg.Text("Escolha a opção desejada:")],
             [sg.Radio("1 - Incluir Novo Tipo", "RD1", key=1)],
             [sg.Radio("2 - Listar Tipos", "RD1", key=2)],
+            [sg.Radio("3 - Alterar Tipo", "RD1", key=3)],
+            [sg.Radio("4 - Excluir Tipo", "RD1", key=4)],
             [sg.Radio("0 - Voltar", "RD1", key=0)],
             [sg.Button("Confirmar"), sg.Cancel('Cancelar')]
         ]
@@ -22,15 +24,19 @@ class TelaTipoAtendimento:
         button, values = self.__window.Read()
 
         opcao = 0
-        if values:
-            if values[1]:
-                opcao = 1
-            elif values[2]:
-                opcao = 2
-            elif values[0] or button in (None, 'Cancelar'):
-                opcao = 0
-        else:
+        if button in (None, 'Cancelar'):
             opcao = 0
+        elif values:
+            if values.get(1):
+                opcao = 1
+            elif values.get(2):
+                opcao = 2
+            elif values.get(3):
+                opcao = 3
+            elif values.get(4):
+                opcao = 4
+            elif values.get(0):
+                opcao = 0
 
         self.close()
         return opcao
@@ -108,3 +114,21 @@ class TelaTipoAtendimento:
         window = sg.Window("Lista de Tipos", layout, finalize=True)
         window.read()
         window.close()
+
+    def seleciona_tipo(self):
+        sg.ChangeLookAndFeel("DarkBlue3")
+        layout = [
+            [sg.Text("Selecionar Tipo", font=("Helvetica", 16))],
+            [sg.Text("ID do Tipo:", size=(15, 1)), sg.InputText('', key='id')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Selecionar', layout)
+        button, values = window.Read()
+        window.Close()
+        if button in (None, 'Cancelar'):
+            return None
+        try:
+            return int(values['id'])
+        except ValueError:
+            self.mostra_mensagem("ID deve ser um número inteiro")
+            return None

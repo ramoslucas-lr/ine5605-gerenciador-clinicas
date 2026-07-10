@@ -81,8 +81,11 @@ class ControladorPessoa:
                             reg_profissional, especialidade
                         )
                         break
+                    elif tipo_papel is None:
+                        self.__tela_pessoa.mostra_mensagem("Pessoa cadastrada sem papéis no momento.")
+                        break
                     else:
-                        print("Papel inválido. Nenhum papel adicionado.")
+                        self.__tela_pessoa.mostra_mensagem("Papel inválido. Nenhum papel adicionado.")
                         continue
 
             else:
@@ -123,7 +126,16 @@ class ControladorPessoa:
                 if alterar_papeis:
                     self.abre_menu_papeis(pessoa)
 
-                self.__pessoa_dao.update(pessoa)
+                novo_cpf = dados_pessoa["cpf"]
+                if novo_cpf != cpf:
+                    if self.buscar_pessoa(novo_cpf) is not None:
+                        self.__tela_pessoa.mostra_mensagem("Já existe uma pessoa com este novo CPF!")
+                        return
+                    pessoa.cpf = novo_cpf
+                    self.__pessoa_dao.remove(cpf)
+                    self.__pessoa_dao.add(pessoa)
+                else:
+                    self.__pessoa_dao.update(pessoa)
 
                 self.__tela_pessoa.mostra_mensagem("Pessoa alterada com sucesso.")
         else:
@@ -201,7 +213,7 @@ class ControladorPessoa:
 
             if opcao_escolhida in opcoes:
                 opcoes[opcao_escolhida](pessoa)
-            elif opcao_escolhida == 0:
+            elif opcao_escolhida == 0 or opcao_escolhida == -1:
                 break
             else:
                 self.__tela_pessoa.mostra_mensagem("Opção inválida. Tente novamente.")
