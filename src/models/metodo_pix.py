@@ -3,15 +3,23 @@ from models.metodo_pagamento import MetodoPagamento
 
 class MetodoPix(MetodoPagamento):
 
-    def __init__(self, cpf_pagador: str):
+    def __init__(self, chave: str, tipo_chave: str):
         super().__init__()
-
-        self.__cpf_pagador = cpf_pagador
+        self.__chave = chave
+        self.__tipo_chave = tipo_chave
 
     @property
-    def cpf_pagador(self):
-        return self.__cpf_pagador
+    def chave(self):
+        return self.__chave
 
-    @cpf_pagador.setter
-    def cpf_pagador(self, cpf_pagador):
-        self.__cpf_pagador = cpf_pagador
+    @chave.setter
+    def chave(self, chave):
+        self.__chave = chave
+
+    @property
+    def tipo_chave(self):
+        return self.__tipo_chave
+
+    @tipo_chave.setter
+    def tipo_chave(self, tipo_chave):
+        self.__tipo_chave = tipo_chave
