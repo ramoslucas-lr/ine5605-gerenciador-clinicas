@@ -78,7 +78,7 @@ class ControladorProcedimento:
             procedimento.descricao = dados["descricao"]
             procedimento.valor = Decimal(dados["valor"])
 
-            self.__dao.add(procedimento)
+            self.__dao.update(procedimento)
 
             self.__tela.show_message(
                 "Procedimento alterado com sucesso."
