@@ -19,11 +19,7 @@ class ControladorRelatorio:
             contagem_clinicas.items(), key=lambda x: x[1], reverse=True
         )[:top_n]
 
-        clinicas_str = [
-            f"Clínica: {clinica[0]}, Total de Atendimentos: {clinica[1]}"
-            for clinica in clinicas_ordenadas
-        ]
-        self.__tela_relatorio.mostra_clinicas(clinicas_str)
+        self.__tela_relatorio.mostra_clinicas(clinicas_ordenadas)
 
     def atendimentos_mais_caros_ou_baratos(self):
         atendimentos = self.__controlador_sistema.controlador_atendimento.atendimentos
@@ -34,11 +30,7 @@ class ControladorRelatorio:
             atendimentos, key=lambda x: x.valor, reverse=(ordem == 1)
         )[:top_n]
 
-        atendimentos_str = [
-            f"ID: {atendimento.id}, Valor: {atendimento.valor}, Data: {atendimento.ts_inicio.strftime('%Y-%m-%d')}"
-            for atendimento in atendimentos_ordenados
-        ]
-        self.__tela_relatorio.mostra_atendimentos(atendimentos_str)
+        self.__tela_relatorio.mostra_atendimentos(atendimentos_ordenados)
 
     def procedimentos_mais_realizados(self):
         atendimentos = self.__controlador_sistema.controlador_atendimento.atendimentos
@@ -55,11 +47,7 @@ class ControladorRelatorio:
             contagem_procedimentos.items(), key=lambda x: x[1], reverse=True
         )[:top_n]
 
-        procedimentos_str = [
-            f"Descrição: {procedimento[0]}, Quantidade: {procedimento[1]}"
-            for procedimento in procedimentos_ordenados
-        ]
-        self.__tela_relatorio.mostra_procedimentos(procedimentos_str)
+        self.__tela_relatorio.mostra_procedimentos_qtd(procedimentos_ordenados)
 
     def procedimentos_mais_caros_ou_baratos(self):
         atendimentos = self.__controlador_sistema.controlador_atendimento.atendimentos
@@ -74,11 +62,7 @@ class ControladorRelatorio:
             todos_procedimentos, key=lambda x: x.valor, reverse=(ordem == 1)
         )[:top_n]
 
-        procedimentos_str = [
-            f"Procedimento: {procedimento.descricao}, Valor: R$ {procedimento.valor}"
-            for procedimento in procedimentos_ordenados
-        ]
-        self.__tela_relatorio.mostra_procedimentos(procedimentos_str)
+        self.__tela_relatorio.mostra_procedimentos_valor(procedimentos_ordenados)
 
     def abre_tela(self):
         opcoes = {
