@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 OPR/128.0.0.0 (Edition std-1)">
   <diagram name="Página-1" id="zNmHE1R4Z2AghOE3mN99">
-    <mxGraphModel dx="1088" dy="572" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1212" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -386,7 +386,40 @@
         <mxCell id="EET-VtfllatWi5M92ZrA-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="- controlador_sistema" vertex="1">
           <mxGeometry height="30" width="120" x="1580" y="95" as="geometry" />
         </mxCell>
-      <mxCell id="DAO_63b46a561bf84ea" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;" value="&lt;span&gt;&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&amp;lt;br&amp;gt;DAO&lt;/span&gt;" vertex="1"><mxGeometry x="0" y="0" width="200" height="150" as="geometry" /></mxCell><mxCell id="DAO_111a5c30f4d5403" parent="DAO_63b46a561bf84ea" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" value="&lt;div&gt;# _datasource: str&lt;/div&gt;&lt;div&gt;# _cache: dict&lt;/div&gt;" vertex="1"><mxGeometry y="26" width="200" height="54" as="geometry" /></mxCell><mxCell id="DAO_32c05c6ac47b43d" parent="DAO_63b46a561bf84ea" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;rounded=1;" value="" vertex="1"><mxGeometry y="80" width="200" height="8" as="geometry" /></mxCell><mxCell id="DAO_131e4bace2f3417" parent="DAO_63b46a561bf84ea" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" value="&lt;div&gt;+ add(key, obj)&lt;/div&gt;&lt;div&gt;+ update(key, obj)&lt;/div&gt;&lt;div&gt;+ remove(key)&lt;/div&gt;&lt;div&gt;+ get(key)&lt;/div&gt;&lt;div&gt;+ get_all()&lt;/div&gt;" vertex="1"><mxGeometry y="88" width="200" height="62" as="geometry" /></mxCell><mxCell id="DAO_86fc5326053749d" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;" value="&lt;span&gt;PessoaDAO&lt;/span&gt;" vertex="1"><mxGeometry x="220" y="0" width="200" height="150" as="geometry" /></mxCell><mxCell id="DAO_f5a16208821948e" parent="DAO_86fc5326053749d" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" value="" vertex="1"><mxGeometry y="26" width="200" height="54" as="geometry" /></mxCell><mxCell id="DAO_34de915d225946b" parent="DAO_86fc5326053749d" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;rounded=1;" value="" vertex="1"><mxGeometry y="80" width="200" height="8" as="geometry" /></mxCell><mxCell id="DAO_5c15fff455a140f" parent="DAO_86fc5326053749d" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" value="&lt;div&gt;+ add(pessoa)&lt;/div&gt;&lt;div&gt;+ update(pessoa)&lt;/div&gt;" vertex="1"><mxGeometry y="88" width="200" height="62" as="geometry" /></mxCell><mxCell id="DAO_6b57aa97aa904ae" parent="1" source="DAO_86fc5326053749d" target="DAO_63b46a561bf84ea" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" edge="1"><mxGeometry relative="1" as="geometry" /></mxCell></root>
+        <mxCell id="DAO_63b46a561bf84ea" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;" value="&lt;span&gt;&lt;i&gt;DAO&lt;/i&gt;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="190" width="200" x="1480" y="510.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DAO_111a5c30f4d5403" parent="DAO_63b46a561bf84ea" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" value="&lt;div&gt;- datasource: str&lt;/div&gt;&lt;div&gt;- cache: dict&lt;/div&gt;" vertex="1">
+          <mxGeometry height="54" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="DAO_32c05c6ac47b43d" parent="DAO_63b46a561bf84ea" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;rounded=1;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="DAO_131e4bace2f3417" parent="DAO_63b46a561bf84ea" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" value="&lt;div&gt;+ add(key, obj)&lt;/div&gt;&lt;div&gt;+ update(key, obj)&lt;/div&gt;&lt;div&gt;+ remove(key)&lt;/div&gt;&lt;div&gt;+ get(key)&lt;/div&gt;&lt;div&gt;+ get_all()&lt;/div&gt;" vertex="1">
+          <mxGeometry height="102" width="200" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="kPxLxWlGQaIhdLDjQHem-1" edge="1" parent="1" source="DAO_86fc5326053749d" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;endArrow=open;endFill=0;startArrow=diamond;startFill=1;startSize=15;endSize=15;" target="FX9WF2imU-fpnGGPAJ6t-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="DAO_86fc5326053749d" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;" value="&lt;span&gt;PessoaDAO&lt;/span&gt;" vertex="1">
+          <mxGeometry height="150" width="200" x="1480" y="232.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DAO_f5a16208821948e" parent="DAO_86fc5326053749d" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" value="" vertex="1">
+          <mxGeometry height="54" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="DAO_34de915d225946b" parent="DAO_86fc5326053749d" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;rounded=1;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="DAO_5c15fff455a140f" parent="DAO_86fc5326053749d" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;rounded=1;" value="&lt;div&gt;+ add(pessoa)&lt;/div&gt;&lt;div&gt;+ update(pessoa)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="62" width="200" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="DAO_6b57aa97aa904ae" edge="1" parent="1" source="DAO_86fc5326053749d" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" target="DAO_63b46a561bf84ea">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kPxLxWlGQaIhdLDjQHem-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&amp;nbsp;- pessoa_dao" vertex="1">
+          <mxGeometry height="30" width="110" x="1570" y="192" as="geometry" />
+        </mxCell>
+      </root>
     </mxGraphModel>
   </diagram>
 </mxfile>
